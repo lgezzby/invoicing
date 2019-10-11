@@ -1,4 +1,4 @@
-package com.hui.iFrame.shangPinGuanLi;
+package com.hui.iFrame.cpt;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,7 +13,7 @@ import com.hui.javaBean.Item;
 import com.hui.javaBean.TbKhInfo;
 import com.hui.javaBean.TbSpinfo;
 
-public class ShangPinTianJiaPanel extends JPanel {
+public class CptSavePanel extends JPanel {
 	// 客户列表
 	private JComboBox customers = new JComboBox();
 	// 客户编号
@@ -45,7 +45,7 @@ public class ShangPinTianJiaPanel extends JPanel {
 
 	private JButton resetBtn = new JButton("重置");
 
-	public ShangPinTianJiaPanel() {
+	public CptSavePanel() {
 		setLayout(new GridBagLayout());
 		setBounds(10, 10, 550, 400);
 		customers.setMaximumRowCount(5);
@@ -118,7 +118,7 @@ public class ShangPinTianJiaPanel extends JPanel {
 		saveBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
 				if (customerId.getText().equals("")) {
-					JOptionPane.showMessageDialog(ShangPinTianJiaPanel.this,
+					JOptionPane.showMessageDialog(CptSavePanel.this,
 							"客户信息不能为空！", "提示信息", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -153,7 +153,7 @@ public class ShangPinTianJiaPanel extends JPanel {
 				spInfo.setRemark(remark.getText().trim());
 				spInfo.setUserSigned(userSigned.getText().trim());
 				Dao.addSp(spInfo);
-				JOptionPane.showMessageDialog(ShangPinTianJiaPanel.this,
+				JOptionPane.showMessageDialog(CptSavePanel.this,
 						"添加CPT/菲林入库成功", "信息提示", JOptionPane.INFORMATION_MESSAGE);
 				resetBtn.doClick();
 			}

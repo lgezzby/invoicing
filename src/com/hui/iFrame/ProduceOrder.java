@@ -15,9 +15,10 @@ import com.hui.javaBean.TbGysInfo;
 import com.hui.javaBean.TbKhInfo;
 import com.hui.javaBean.TbSellMain;
 import com.hui.javaBean.TbSpinfo;
+import mainFrame.MainFrame;
 
 
-public class XiaoShouDan extends JInternalFrame {
+public class ProduceOrder extends JInternalFrame {
 
 	private JComboBox customers = new JComboBox();
 
@@ -107,7 +108,7 @@ public class XiaoShouDan extends JInternalFrame {
 
 	private final JButton resetBtn = new JButton("重置");
 
-	public XiaoShouDan() {
+	public ProduceOrder() {
 		super();
 		setMaximizable(true);
 		setIconifiable(true);
@@ -227,7 +228,9 @@ public class XiaoShouDan extends JInternalFrame {
 		setupComponent(description, 1, 16, 5, 140, true);
 
 		setupComponent(new JLabel("制单"), 0, 17, 1, 0, false);
+		userMade.setText(MainFrame.getCzyStateLabel().getText());
 		setupComponent(userMade, 1, 17, 1, 140, true);
+		userMade.setEditable(false);
 
 		setupComponent(new JLabel("客户确认"), 2, 17, 1, 0, false);
 		setupComponent(customerConfirmed, 3, 17, 1, 140, true);
@@ -245,7 +248,7 @@ public class XiaoShouDan extends JInternalFrame {
 		saveBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
 				if (customerId.getText().equals("") || cptSpecification.getText().equals("") || paperName.getText().equals("")) {
-					JOptionPane.showMessageDialog(XiaoShouDan.this,
+					JOptionPane.showMessageDialog(ProduceOrder.this,
 							"生产单相关信息不能为空！", "提示信息", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -294,7 +297,7 @@ public class XiaoShouDan extends JInternalFrame {
 				spInfo.setUserConfirmed(userConfirmed.getText());
 				spInfo.setUserEnded(userEnded.getText());
 				Dao.addSell(spInfo);
-				JOptionPane.showMessageDialog(XiaoShouDan.this,
+				JOptionPane.showMessageDialog(ProduceOrder.this,
 						"添加生产单成功", "信息提示", JOptionPane.INFORMATION_MESSAGE);
 				resetBtn.doClick();
 			}
@@ -309,34 +312,49 @@ public class XiaoShouDan extends JInternalFrame {
 		setupComponent(resetBtn, 3, 30, 1, 1, false);
 		resetBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
-				customerId.setText("");
-				customerName.setText("");
-				mobile.setText("");
-				payType.setText("");
-				customerRemark.setText("");
-				farm.setText("");
-				exposureDemand.setText("");
-				cptSpecification.setText("");
-				location.setText("");
-				exposureDirective.setText("");
-				chromaticNumber.setText("");
-				printMethod.setText("");
-				printRemark.setText("");
-				printDemand.setSelectedIndex(0);
-				paperName.setText("");
-				paperSpecification.setText("");
-				paperAmount.setText("");
-				paperRemark.setText("");
-				amount.setText("");
-				realAmount.setText("");
-				customerDemand.setText("");
-				description.setText("");
-				userMade.setText("");
-				customerConfirmed.setText("");
-				userConfirmed.setText("");
-				userEnded.setText("");
+				resetCustomerInfo();
+				resetCptInfo();
+				resetPaperInfo();
+				resetBaseInfo();
 			}
 		});
+	}
+
+	private void resetBaseInfo() {
+		amount.setText("");
+		realAmount.setText("");
+		customerDemand.setText("");
+		description.setText("");
+		customerConfirmed.setText("");
+		userConfirmed.setText("");
+		userEnded.setText("");
+	}
+
+	private void resetPaperInfo() {
+		paperName.setText("");
+		paperSpecification.setText("");
+		paperAmount.setText("");
+		paperRemark.setText("");
+	}
+
+	private void resetCptInfo() {
+		farm.setText("");
+		exposureDemand.setText("");
+		cptSpecification.setText("");
+		location.setText("");
+		exposureDirective.setText("");
+		chromaticNumber.setText("");
+		printMethod.setText("");
+		printRemark.setText("");
+		printDemand.setSelectedIndex(0);
+	}
+
+	private void resetCustomerInfo() {
+		customerId.setText("");
+		customerName.setText("");
+		mobile.setText("");
+		payType.setText("");
+		customerRemark.setText("");
 	}
 
 	public void initPrintDemand() {
@@ -387,6 +405,14 @@ public class XiaoShouDan extends JInternalFrame {
 		customerId.setText(khInfo.getId());
 		customerName.setText(khInfo.getName());
 		mobile.setText(khInfo.getMobile());
+		payType.setText(khInfo.getPayType());
+		customerRemark.setText(khInfo.getRemark());
+
+		// 只展示客户有关的信息列表
+		initCpts();
+		initMaterials();
+		resetCptInfo();
+		resetPaperInfo();
 	}
 
 	private void setupComponent(JComponent component, int gridx, int gridy,
@@ -405,8 +431,49 @@ public class XiaoShouDan extends JInternalFrame {
 	}
 
 	public void initCheckBox() {
-		java.util.List customerList = Dao.getKhInfos();
-		java.util.List<Item> items = new ArrayList<Item>();
+		initCustomers();
+		initCpts();
+		initMaterials();
+	}
+
+	private void initMaterials() {
+		String selectedCustomerId = customerId.getText();
+		List<Item> items = new ArrayList<Item>();
+		List materialList = Dao.getGysInfos(selectedCustomerId);
+		materials.removeAllItems();
+		for (Iterator iter = materialList.iterator(); iter.hasNext();) {
+			java.util.List element = (List) iter.next();
+			Item item = new Item();
+			item.setId(element.get(0).toString().trim());
+			item.setName(element.get(0).toString().trim() + ":" + element.get(4).toString().trim());
+			if (items.contains(item))
+				continue;
+			items.add(item);
+			materials.addItem(item);
+		}
+	}
+
+	private void initCpts() {
+		String selectedCustomerId = customerId.getText();
+		List<Item> items = new ArrayList<Item>();
+		List cptList = Dao.getSpInfos(selectedCustomerId);
+		cpts.removeAllItems();
+		for (Iterator iter = cptList.iterator(); iter.hasNext();) {
+			java.util.List element = (List) iter.next();
+			Item item = new Item();
+			item.setId(element.get(0).toString().trim());
+			item.setName(element.get(0).toString().trim() + ":" + element.get(13).toString().trim());
+			if (items.contains(item)) {
+				continue;
+			}
+			items.add(item);
+			cpts.addItem(item);
+		}
+	}
+
+	private void initCustomers() {
+		List customerList = Dao.getKhInfos();
+		List<Item> items = new ArrayList<Item>();
 		customers.removeAllItems();
 		for (Iterator iter = customerList.iterator(); iter.hasNext();) {
 			java.util.List element = (List) iter.next();
@@ -417,34 +484,6 @@ public class XiaoShouDan extends JInternalFrame {
 				continue;
 			items.add(item);
 			customers.addItem(item);
-		}
-
-		items.clear();
-		java.util.List cptList = Dao.getSpInfos();
-		cpts.removeAllItems();
-		for (Iterator iter = cptList.iterator(); iter.hasNext();) {
-			java.util.List element = (List) iter.next();
-			Item item = new Item();
-			item.setId(element.get(0).toString().trim());
-			item.setName(element.get(1).toString().trim());
-			if (items.contains(item))
-				continue;
-			items.add(item);
-			cpts.addItem(item);
-		}
-
-		items.clear();
-		java.util.List materialList = Dao.getGysInfos();
-		materials.removeAllItems();
-		for (Iterator iter = materialList.iterator(); iter.hasNext();) {
-			java.util.List element = (List) iter.next();
-			Item item = new Item();
-			item.setId(element.get(0).toString().trim());
-			item.setName(element.get(1).toString().trim());
-			if (items.contains(item))
-				continue;
-			items.add(item);
-			materials.addItem(item);
 		}
 	}
 }

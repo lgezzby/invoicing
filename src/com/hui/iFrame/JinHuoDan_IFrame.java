@@ -324,7 +324,7 @@ public class JinHuoDan_IFrame extends JInternalFrame {
 		if(gysComboBox == null){
 			gysComboBox = new JComboBox();
 			gysComboBox.setBounds(302, 10, 145, 21);
-			List gysInfos = Dao.getGysInfos();
+			List gysInfos = Dao.getGysInfos(null);
 			Dao.closeResourse();
 			Iterator it = gysInfos.iterator() ;
 			while(it.hasNext()){

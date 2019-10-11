@@ -1,46 +1,38 @@
 package mainFrame;
 
 import java.awt.Desktop;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.*;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
-import javax.swing.plaf.DesktopPaneUI;
 
 import com.hui.iFrame.BackupAndRestore;
 import com.hui.iFrame.GengGaiMiMa;
 import com.hui.iFrame.GuanYu;
-import com.hui.iFrame.GysGuanLi;
+import com.hui.iFrame.PaperFrame;
 import com.hui.iFrame.JiaGeTiaoZheng;
 import com.hui.iFrame.JinHuoDan_IFrame;
 import com.hui.iFrame.Jinhuo_Tuihuo_IFrame;
 import com.hui.iFrame.JsrGL;
-import com.hui.iFrame.KeHuGuanLi;
+import com.hui.iFrame.CustomerFrame;
 import com.hui.iFrame.KuCunPanDian;
-import com.hui.iFrame.ShangPinChaXun;
-import com.hui.iFrame.ShangPinGuanLi;
+import com.hui.iFrame.ProduceOrderQuery;
+import com.hui.iFrame.CptFrame;
 import com.hui.iFrame.XiaoShouChaXun;
-import com.hui.iFrame.XiaoShouDan;
+import com.hui.iFrame.ProduceOrder;
 import com.hui.iFrame.XiaoShouPaiHang;
 
 
@@ -496,7 +488,7 @@ public class MenuBar extends JMenuBar {
 			gys_guanliItem
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
-							createFrame(gys_guanliItem, GysGuanLi.class);
+							createFrame(gys_guanliItem, PaperFrame.class);
 						}
 					});
 		}
@@ -511,7 +503,7 @@ public class MenuBar extends JMenuBar {
 					"/res/icon/kehu_guanli.png")));
 			kehu_guanliItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					createFrame(kehu_guanliItem, KeHuGuanLi.class);
+					createFrame(kehu_guanliItem, CustomerFrame.class);
 				}
 			});
 		}
@@ -525,7 +517,7 @@ public class MenuBar extends JMenuBar {
 					"/res/icon/shangpin_guanli.png")));
 			shangpin_guanliItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					createFrame(shangpin_guanliItem, ShangPinGuanLi.class);
+					createFrame(shangpin_guanliItem, CptFrame.class);
 				}
 			});
 		}
@@ -569,7 +561,7 @@ public class MenuBar extends JMenuBar {
 			shangpin_chaxunItem
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
-							createFrame(shangpin_chaxunItem, ShangPinChaXun.class);
+							createFrame(shangpin_chaxunItem, ProduceOrderQuery.class);
 						}
 					});
 		}
@@ -666,7 +658,7 @@ public class MenuBar extends JMenuBar {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					createFrame(xiaoshou_danItem, XiaoShouDan.class);
+					createFrame(xiaoshou_danItem, ProduceOrder.class);
 				}
 			});
 		}

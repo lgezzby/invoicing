@@ -16,6 +16,7 @@ import com.hui.javaBean.TbRukuMain;
 import com.hui.javaBean.TbSellDetail;
 import com.hui.javaBean.TbSellMain;
 import com.hui.javaBean.TbSpinfo;
+import com.mysql.jdbc.StringUtils;
 
 
 public class Dao {
@@ -43,8 +44,12 @@ public class Dao {
 		}
 		return set;
 	}
-	public static List getGysInfos() {
-		List list = findForList("select * from tb_gysinfo");
+	public static List getGysInfos(String selectedCustomerId) {
+		String where = "";
+		if (!StringUtils.isNullOrEmpty(selectedCustomerId)) {
+			where = " where customer_id = '" + selectedCustomerId + "'";
+		}
+		List list = findForList("select * from tb_gysinfo" + where);
 		return list;
 	}
 	public static List findForList(String string) {
@@ -113,8 +118,9 @@ public class Dao {
 		ResultSet set = query(sql);
 		String baseId = null;
 		try {
-			if (set.next())
+			if (set.next()) {
 				baseId = set.getString(1);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -225,8 +231,9 @@ public class Dao {
 	}
 	public static TbKucun getKucun(Item item) {
 		String where = "spname='" + item.getName() + "'";
-		if (item.getId() != null)
+		if (item.getId() != null) {
 			where = "id='" + item.getId() + "'";
+		}
 		ResultSet rs = findForResultSet("select * from tb_kucun where "
 				+ where);
 		TbKucun kucun = new TbKucun();
@@ -258,8 +265,9 @@ public class Dao {
 	}
 	public static TbSpinfo getSpInfo(Item item) {
 			String where = "spname='" + item.getName() + "'";
-			if (item.getId() != null)
+			if (item.getId() != null) {
 				where = "id='" + item.getId() + "'";
+			}
 			ResultSet rs = findForResultSet("select * from tb_spinfo where "
 					+ where);
 			TbSpinfo spInfo = new TbSpinfo();
@@ -392,8 +400,9 @@ public class Dao {
 	public static TbKhInfo getKhInfo(Item item) {
 		TbKhInfo kehu = new TbKhInfo();
 		String where = "name='" + item.getName() + "'";
-		if (item.getId() != null)
+		if (item.getId() != null) {
 			where = "id='" + item.getId() + "'";
+		}
 		ResultSet rs = findForResultSet("select * from tb_khinfo where "
 				+ where);
 		try {
@@ -437,9 +446,13 @@ public class Dao {
 		r = update("update tb_kucun set dj='"+kcInfo.getDj()+"' where id ='"+kcInfo.getId()+"'");
 		return r;
 	}
-	public static List getSpInfos() {
+	public static List getSpInfos(String selectedCustomerId) {
+		String where = "";
+		if (!StringUtils.isNullOrEmpty(selectedCustomerId)) {
+			where = " where customer_id = '" + selectedCustomerId + "'";
+		}
 		List list = new ArrayList<>();
-		list = findForList("select * from tb_spinfo");
+		list = findForList("select * from tb_spinfo" + where);
 		return list;
 	}
 	public static void addSp(TbSpinfo sp) {
@@ -523,8 +536,9 @@ public class Dao {
 	public static boolean checkLogin(String username, String psw) {
 		boolean re = false ;
 		ResultSet rs = findForResultSet("select*from tb_userlist where username='"+username+"' and pass='"+psw+"'");
-		if(rs != null)
+		if (rs != null) {
 			re = true;
+		}
 		closeResourse();
 		return re;
 	}
@@ -541,8 +555,9 @@ public class Dao {
 	public static TbSellMain getOrder(Item item) {
 		TbSellMain kehu = new TbSellMain();
 		String where = "name='" + item.getName() + "'";
-		if (item.getId() != null)
+		if (item.getId() != null) {
 			where = "id='" + item.getId() + "'";
+		}
 		ResultSet rs = findForResultSet("select * from tb_sell_main where "
 				+ where);
 		try {

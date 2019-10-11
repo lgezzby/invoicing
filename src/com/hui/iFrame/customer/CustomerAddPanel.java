@@ -1,4 +1,4 @@
-package com.hui.iFrame.keHuGuanLi;
+package com.hui.iFrame.customer;
 
 
 import com.hui.Dao.Dao;
@@ -16,7 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class KeHuTianJiaPanel extends JPanel {
+public class CustomerAddPanel extends JPanel {
 	// 姓名
 	private JTextField name = new JTextField();
 	// 电话/手机
@@ -34,7 +34,7 @@ public class KeHuTianJiaPanel extends JPanel {
 	// 重置
 	private JButton resetBtn = new JButton("重置");
 
-	public KeHuTianJiaPanel() {
+	public CustomerAddPanel() {
 		super();
 		setBounds(10, 10, 460, 300);
 		setLayout(new GridBagLayout());
@@ -102,7 +102,7 @@ public class KeHuTianJiaPanel extends JPanel {
 			try {
 				if (haveUser.next()){
 					System.out.println("error");
-					JOptionPane.showMessageDialog(KeHuTianJiaPanel.this,
+					JOptionPane.showMessageDialog(CustomerAddPanel.this,
 							"客户信息已存在", "错误信息",
 							JOptionPane.INFORMATION_MESSAGE);
 					return;
@@ -134,7 +134,7 @@ public class KeHuTianJiaPanel extends JPanel {
 			khinfo.setRemark(remark.getText().trim());
 			khinfo.setBalance(balance.getText().trim());
 			Dao.addKeHu(khinfo);
-			JOptionPane.showMessageDialog(KeHuTianJiaPanel.this, "添加成功",
+			JOptionPane.showMessageDialog(CustomerAddPanel.this, "添加成功",
 					"信息提示", JOptionPane.INFORMATION_MESSAGE);
 			resetBtn.doClick();
 		}

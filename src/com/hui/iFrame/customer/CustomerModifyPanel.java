@@ -1,4 +1,4 @@
-package com.hui.iFrame.keHuGuanLi;
+package com.hui.iFrame.customer;
 
 
 import java.awt.*;
@@ -13,7 +13,7 @@ import com.hui.javaBean.Item;
 import com.hui.javaBean.TbKhInfo;
 
 
-public class KeHuXiuGaiPanel extends JPanel {
+public class CustomerModifyPanel extends JPanel {
 	// 姓名
 	private JTextField name = new JTextField();
 	// 电话/手机
@@ -33,7 +33,7 @@ public class KeHuXiuGaiPanel extends JPanel {
 	// 客户列表
 	private JComboBox customers = new JComboBox();
 
-	public KeHuXiuGaiPanel() {
+	public CustomerModifyPanel() {
 		setBounds(10, 10, 460, 300);
 		setLayout(new GridBagLayout());
 		setVisible(true);
@@ -81,12 +81,12 @@ public class KeHuXiuGaiPanel extends JPanel {
 				if (item == null || !(item instanceof Item))
 					return;
 				int confirm = JOptionPane.showConfirmDialog(
-						KeHuXiuGaiPanel.this, "确认删除？");
+						CustomerModifyPanel.this, "确认删除？");
 				if (confirm == JOptionPane.YES_OPTION) {
 					int rs = Dao.delete("delete from tb_khinfo where id='"
 							+ item.getId() + "'");
 					if (rs > 0) {
-						JOptionPane.showMessageDialog(KeHuXiuGaiPanel.this,
+						JOptionPane.showMessageDialog(CustomerModifyPanel.this,
 								"客户" + item.getName() + "删除成功");
 						customers.removeItem(item);
 					}
@@ -107,9 +107,9 @@ public class KeHuXiuGaiPanel extends JPanel {
 				khinfo.setRemark(remark.getText().trim());
 				khinfo.setBalance(balance.getText().trim());
 				if (Dao.updateKeHu(khinfo) == 1)
-					JOptionPane.showMessageDialog(KeHuXiuGaiPanel.this, "更新成功！");
+					JOptionPane.showMessageDialog(CustomerModifyPanel.this, "更新成功！");
 				else
-					JOptionPane.showMessageDialog(KeHuXiuGaiPanel.this, "更新失败！");
+					JOptionPane.showMessageDialog(CustomerModifyPanel.this, "更新失败！");
 			}
 		});
 	}

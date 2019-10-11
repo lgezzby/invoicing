@@ -1,4 +1,4 @@
-package com.hui.iFrame.shangPinGuanLi;
+package com.hui.iFrame.cpt;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,12 +8,10 @@ import javax.swing.*;
 
 import com.hui.Dao.Dao;
 import com.hui.javaBean.Item;
-import com.hui.javaBean.TbGysInfo;
 import com.hui.javaBean.TbKhInfo;
-import com.hui.javaBean.TbSellMain;
 import com.hui.javaBean.TbSpinfo;
 
-public class ShangPinXiuGaiPanel extends JPanel {
+public class CptModifyPanel extends JPanel {
 	// 入库编号
 	private JTextField cptId = new JTextField();
 	// 入库时间
@@ -51,7 +49,7 @@ public class ShangPinXiuGaiPanel extends JPanel {
 
 	private JComboBox cpts = new JComboBox();
 
-	public ShangPinXiuGaiPanel() {
+	public CptModifyPanel() {
 		setLayout(new GridBagLayout());
 		setBounds(10, 10, 550, 400);
 
@@ -151,11 +149,11 @@ public class ShangPinXiuGaiPanel extends JPanel {
 				if (item == null || !(item instanceof Item))
 					return;
 				int confirm = JOptionPane.showConfirmDialog(
-						ShangPinXiuGaiPanel.this, "确认删除");
+						CptModifyPanel.this, "确认删除");
 				if (confirm == JOptionPane.YES_OPTION) {
 					int rs = Dao.delete("delete from tb_spinfo where id='" + item.getId() + "'");
 					if (rs > 0) {
-						JOptionPane.showMessageDialog(ShangPinXiuGaiPanel.this,
+						JOptionPane.showMessageDialog(CptModifyPanel.this,
 								"cpt/菲林" + item.getName() + "信息删除成功");
 						cpts.removeItem(item);
 					}
@@ -183,11 +181,11 @@ public class ShangPinXiuGaiPanel extends JPanel {
 				spInfo.setUserSigned(userSigned.getText().trim());
 				if (Dao.updateSp(spInfo) == 1) {
 					initComboBox();
-					JOptionPane.showMessageDialog(ShangPinXiuGaiPanel.this,
+					JOptionPane.showMessageDialog(CptModifyPanel.this,
 							"更新成功");
 				}
 				else {
-					JOptionPane.showMessageDialog(ShangPinXiuGaiPanel.this,
+					JOptionPane.showMessageDialog(CptModifyPanel.this,
 							"更新失败");
 				}
 			}
@@ -203,7 +201,7 @@ public class ShangPinXiuGaiPanel extends JPanel {
 
 	//初始化入库信息
 	public void initComboBox() {
-		List khInfo = Dao.getSpInfos();
+		List khInfo = Dao.getSpInfos(null);
 		List<Item> items = new ArrayList<Item>();
 		cpts.removeAllItems();
 		for (Iterator iter = khInfo.iterator(); iter.hasNext();) {
