@@ -2,7 +2,6 @@ package com.hui.iFrame.paper;
 
 
 import java.awt.*;
-import java.awt.event.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,11 +46,7 @@ public class PaperSavePanel extends JPanel {
 
 		customers.setPreferredSize(new Dimension(230, 21));
 		setupComponent(customers, 1, 0, 3, 1, true);
-		customers.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doKeHuSelectAction();
-			}
-		});
+		customers.addActionListener(e -> doKeHuSelectAction());
 
 		setupComponent(new JLabel("客户编号"), 0, 1, 1, 1, false);
 		setupComponent(customerId, 1, 1, 3, 400, true);
@@ -84,72 +79,69 @@ public class PaperSavePanel extends JPanel {
 	}
 
 	private void initialBtn() {
-		saveBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent e) {
-				if (customerId.getText().equals("")
-						|| paperName.getText().equals("")) {
-					JOptionPane.showMessageDialog(PaperSavePanel.this, "客户信息和纸张名称不能为空");
+		saveBtn.addActionListener(e -> {
+			if (customerId.getText().equals("")
+					|| paperName.getText().equals("")) {
+				JOptionPane.showMessageDialog(PaperSavePanel.this, "客户信息和纸张名称不能为空");
+				return;
+			}
+			ResultSet haveUser = Dao
+					.query("select * from tb_gysinfo where name='"
+							+ paperName.getText().trim() + "'");
+			try {
+				if (haveUser.next()){
+					System.out.println("error");
+					JOptionPane.showMessageDialog(PaperSavePanel.this,
+							"材料已存在！", "信息提示",
+							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
-				ResultSet haveUser = Dao
-						.query("select * from tb_gysinfo where name='"
-								+ paperName.getText().trim() + "'");
-				try {
-					if (haveUser.next()){
-						System.out.println("error");
-						JOptionPane.showMessageDialog(PaperSavePanel.this,
-								"材料已存在！", "信息提示",
-								JOptionPane.INFORMATION_MESSAGE);
-						return;
-					}
-				} catch (Exception er) {
-					er.printStackTrace();
-				}
-				ResultSet set = Dao.query("select max(id) from tb_gysinfo");
-				String id = null;
-				try {
-					if (set != null && set.next()) {
-						String sid = set.getString(1).trim();
-						if (sid == null)
-							id = "1001";
-						else {
-							id = String.valueOf(Integer.parseInt(sid) + 1);
-						}
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				TbGysInfo gysInfo = new TbGysInfo();
-				gysInfo.setId(id);
-				gysInfo.setCustomerId(customerId.getText().trim());
-				gysInfo.setName(name.getText().trim());
-				gysInfo.setMobile(mobile.getText().trim());
-				gysInfo.setPaperName(paperName.getText().trim());
-				gysInfo.setSpecification(specification.getText());
-				gysInfo.setAmount(amount.getText());
-				gysInfo.setRemark(remark.getText());
-				gysInfo.setUserSigned(userSigned.getText());
-				Dao.addGys(gysInfo);
-				JOptionPane.showMessageDialog(PaperSavePanel.this, "添加成功",
-						"信息提示", JOptionPane.INFORMATION_MESSAGE);
-				resetBtn.doClick();
+			} catch (Exception er) {
+				er.printStackTrace();
 			}
+			ResultSet set = Dao.query("select max(id) from tb_gysinfo");
+			String id = null;
+			try {
+				if (set != null && set.next()) {
+					String sid = set.getString(1).trim();
+					if (sid == null) {
+						id = "1001";
+					}
+					else {
+						id = String.valueOf(Integer.parseInt(sid) + 1);
+					}
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			TbGysInfo gysInfo = new TbGysInfo();
+			gysInfo.setId(id);
+			gysInfo.setCustomerId(customerId.getText().trim());
+			gysInfo.setName(name.getText().trim());
+			gysInfo.setMobile(mobile.getText().trim());
+			gysInfo.setPaperName(paperName.getText().trim());
+			gysInfo.setSpecification(specification.getText());
+			gysInfo.setAmount(amount.getText());
+			gysInfo.setRemark(remark.getText());
+			gysInfo.setUserSigned(userSigned.getText());
+			Dao.addGys(gysInfo);
+			JOptionPane.showMessageDialog(PaperSavePanel.this, "添加成功",
+					"信息提示", JOptionPane.INFORMATION_MESSAGE);
+			resetBtn.doClick();
 		});
 		setupComponent(saveBtn, 1, 9, 1, 0, false);
 
 		setupComponent(resetBtn, 3, 9, 1, 0, false);
-		resetBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent e) {
-				customers.setSelectedIndex(0);
-				customerId.setText("");
-				name.setText("");
-				mobile.setText("");
-				paperName.setText("");
-				specification.setText("");
-				amount.setText("");
-				remark.setText("");
-				userSigned.setText("");
-			}
+		resetBtn.addActionListener(e -> {
+			customers.setSelectedIndex(0);
+			customerId.setText("");
+			name.setText("");
+			mobile.setText("");
+			paperName.setText("");
+			specification.setText("");
+			amount.setText("");
+			remark.setText("");
+			userSigned.setText("");
 		});
 	}
 
@@ -171,26 +163,30 @@ public class PaperSavePanel extends JPanel {
 		gridBagConstrains.gridx = gridx;
 		gridBagConstrains.gridy = gridy;
 		gridBagConstrains.insets = new Insets(5, 1, 3, 1);
-		if (gridwidth > 1)
+		if (gridwidth > 1) {
 			gridBagConstrains.gridwidth = gridwidth;
-		if (ipadx > 0)
+		}
+		if (ipadx > 0) {
 			gridBagConstrains.ipadx = ipadx;
-		if (fill)
+		}
+		if (fill) {
 			gridBagConstrains.fill = GridBagConstraints.HORIZONTAL;
+		}
 		add(component, gridBagConstrains);
 	}
 
 	public void initCustomers() {
 		java.util.List customerList = Dao.getKhInfos();
-		java.util.List<Item> items = new ArrayList<Item>();
+		java.util.List<Item> items = new ArrayList<>();
 		customers.removeAllItems();
 		for (Iterator iter = customerList.iterator(); iter.hasNext();) {
 			java.util.List element = (List) iter.next();
 			Item item = new Item();
 			item.setId(element.get(0).toString().trim());
 			item.setName(element.get(1).toString().trim());
-			if (items.contains(item))
+			if (items.contains(item)) {
 				continue;
+			}
 			items.add(item);
 			customers.addItem(item);
 		}

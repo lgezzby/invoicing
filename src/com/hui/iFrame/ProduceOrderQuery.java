@@ -40,6 +40,18 @@ public class ProduceOrderQuery extends JInternalFrame {
 	// 印刷实数
 	private final JTextField realAmount = new JTextField();
 
+	// 切纸规格
+	private final JTextField cutSpecification = new JTextField();
+
+	// 基本订单金额
+	private final JTextField basePay = new JTextField();
+
+	// 其他金额
+	private final JTextField otherPay = new JTextField();
+
+	// 订单总金额
+	private final JTextField totalPay = new JTextField();
+
 	// 客户要求
 	private final JTextField customerDemand = new JTextField();
 
@@ -120,11 +132,7 @@ public class ProduceOrderQuery extends JInternalFrame {
 
 		orders.setMaximumRowCount(5);
 		setupComponent(orders, 6, 0, 2, 1, true);
-		orders.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doItemSelectAction();
-			}
-		});
+		orders.addActionListener(e -> doItemSelectAction());
 
 		setupComponent(new JLabel("客户编号"), 0, 1, 1, 0, false);
 		setupComponent(customerId, 1, 1, 2, 140, true);
@@ -284,15 +292,16 @@ public class ProduceOrderQuery extends JInternalFrame {
 	//初始化入库信息
 	public void initComboBox() {
 		List khInfo = Dao.getOrderInfos();
-		List<Item> items = new ArrayList<Item>();
+		List<Item> items = new ArrayList<>();
 		orders.removeAllItems();
 		for (Iterator iter = khInfo.iterator(); iter.hasNext();) {
 			List element = (List) iter.next();
 			Item item = new Item();
 			item.setId(element.get(0).toString().trim());
 			item.setName(element.get(0).toString().trim() + ":" + element.get(2).toString().trim());
-			if (items.contains(item))
+			if (items.contains(item)) {
 				continue;
+			}
 			items.add(item);
 			orders.addItem(item);
 		}
@@ -304,57 +313,16 @@ public class ProduceOrderQuery extends JInternalFrame {
 		final GridBagConstraints gridBagConstrains = new GridBagConstraints();
 		gridBagConstrains.gridx = gridx;
 		gridBagConstrains.gridy = gridy;
-		if (gridwidth > 1)
+		if (gridwidth > 1) {
 			gridBagConstrains.gridwidth = gridwidth;
-		if (ipadx > 0)
+		}
+		if (ipadx > 0) {
 			gridBagConstrains.ipadx = ipadx;
+		}
 		gridBagConstrains.insets = new Insets(5, 1, 3, 1);
-		if (fill)
+		if (fill) {
 			gridBagConstrains.fill = GridBagConstraints.HORIZONTAL;
+		}
 		getContentPane().add(component, gridBagConstrains);
 	}
-
-
-//	private final class QueryAction implements ActionListener {
-//		private final DefaultTableModel dftm;
-//		private QueryAction(DefaultTableModel dftm) {
-//			this.dftm = dftm;
-//		}
-//		public void actionPerformed(final ActionEvent e) {
-//			String conName, conOperation, content;
-//			conName = conditionName.getSelectedItem().toString().trim();
-//			conOperation = conditionOperation.getSelectedItem().toString();
-//			content = conditionContent.getText().trim();
-//			List list = null;
-//			list = searchInfo(conName, conOperation, content, list);
-//			updateTable(list, dftm);
-//		}
-//
-//		private List searchInfo(String conName, String conOperation,
-//				String content, List list) {
-//			String sql = "select * from Tb_Spinfo where ";
-//			if (conOperation.equals("等于")) {
-//				if (conName.equals("商品名称"))
-//					list = Dao.findForList(sql + "spname='" + content + "'");
-//				if (conName.equals("供应商"))
-//					list = Dao.findForList(sql + "gysname='" + content + "'");
-//				if (conName.equals("产地"))
-//					list = Dao.findForList(sql + "cd='" + content + "'");
-//				if (conName.equals("规格"))
-//					list = Dao.findForList(sql + "gg='" + content + "'");
-//			} else {
-//				if (conName.equals("商品名称"))
-//					list = Dao.findForList(sql + "spname like '%" + content
-//							+ "%'");
-//				if (conName.equals("供应商"))
-//					list = Dao.findForList(sql + "gysname like '%" + content
-//							+ "%'");
-//				if (conName.equals("产地"))
-//					list = Dao.findForList(sql + "cd like '%" + content + "%'");
-//				if (conName.equals("规格"))
-//					list = Dao.findForList(sql + "gg like '%" + content + "%'");
-//			}
-//			return list;
-//		}
-//	}
 }

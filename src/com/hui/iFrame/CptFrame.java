@@ -2,8 +2,6 @@ package com.hui.iFrame;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
@@ -22,14 +20,13 @@ public class CptFrame extends JInternalFrame {
 		tabPane.addTab("CPT/菲林添加", null, sptjPanel, "CPT/菲林添加&&");
 		tabPane.addTab("CPT/菲林修改", null, spxgPanel, "CPT/菲林修改&&");
 		getContentPane().add(tabPane);
-		tabPane.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				spxgPanel.initComboBox();
-				spxgPanel.initCustomers();
-			}
+		tabPane.addChangeListener(e -> {
+			spxgPanel.initComboBox();
+			spxgPanel.initCustomers();
 		});
 
 		addInternalFrameListener(new InternalFrameAdapter(){
+			@Override
 			public void internalFrameActivated(InternalFrameEvent e) {
 				super.internalFrameActivated(e);
 				sptjPanel.initCustomers();

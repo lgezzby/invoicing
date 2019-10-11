@@ -81,16 +81,20 @@ public class CustomerAddPanel extends JPanel {
 		gridBagConstrains.gridx = gridx;
 		gridBagConstrains.gridy = gridy;
 		gridBagConstrains.insets = new Insets(5, 1, 3, 1);
-		if (gridwidth > 1)
+		if (gridwidth > 1) {
 			gridBagConstrains.gridwidth = gridwidth;
-		if (ipadx > 0)
+		}
+		if (ipadx > 0) {
 			gridBagConstrains.ipadx = ipadx;
-		if (fill)
+		}
+		if (fill) {
 			gridBagConstrains.fill = GridBagConstraints.HORIZONTAL;
+		}
 		add(component, gridBagConstrains);
 	}
 
 	private final class SaveBtnuttonActionListener implements ActionListener {
+		@Override
 		public void actionPerformed(final ActionEvent e) {
 			if (StringUtils.isEmptyOrWhitespaceOnly(name.getText())) {
 				JOptionPane.showMessageDialog(null, "客户名称不能为空！");
@@ -115,8 +119,9 @@ public class CustomerAddPanel extends JPanel {
 			try {
 				if (set != null && set.next()) {
 					String sid = set.getString(1);
-					if (sid == null)
+					if (sid == null) {
 						id = "1001";
+					}
 					else {
 						id = String.valueOf(Integer.parseInt(sid) + 1);
 					}
@@ -141,6 +146,7 @@ public class CustomerAddPanel extends JPanel {
 	}
 
 	private class ResetBtnActionListener implements ActionListener {
+		@Override
 		public void actionPerformed(final ActionEvent e) {
 			name.setText("");
 			mobile.setText("");

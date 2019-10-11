@@ -32,10 +32,8 @@ public class LoginDialog extends JFrame {
 	
 	
 	public static void main(String[] args){
-		
 		LoginDialog login = new LoginDialog();
 		login.setVisible(true);
-
 	}
 	
 
@@ -85,12 +83,7 @@ public class LoginDialog extends JFrame {
 		if(exitButton == null){
 			exitButton = new JButton("退出");
 			exitButton.setBounds(180, 110, 80, 20);
-			exitButton.addActionListener(new ActionListener() {		
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					System.exit(0);
-				}
-			});
+			exitButton.addActionListener(e -> System.exit(0));
 		}
 		return exitButton;
 	}
@@ -99,25 +92,21 @@ public class LoginDialog extends JFrame {
 		if(loginButton == null){
 			loginButton = new JButton("登录");
 			loginButton.setBounds(80, 110, 80, 20);
-			loginButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {					
-					username = userField.getText();
-					String psw = new String(passwordField.getPassword());	
-					if (!Dao.checkLogin(username, psw)) {
-						JOptionPane.showMessageDialog(LoginDialog.this,
-								"账户或密码错误", "登陆信息！",
-								JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-				
-				main.setDefaultCloseOperation(EXIT_ON_CLOSE);
-				main.setVisible(true);
-				MainFrame.getCzyStateLabel().setText(username);
-				setVisible(false);
-					
+			loginButton.addActionListener(e -> {
+				username = userField.getText();
+				String psw = new String(passwordField.getPassword());
+				if (!Dao.checkLogin(username, psw)) {
+					JOptionPane.showMessageDialog(LoginDialog.this,
+							"账户或密码错误", "登陆信息！",
+							JOptionPane.ERROR_MESSAGE);
+					return;
 				}
+
+			main.setDefaultCloseOperation(EXIT_ON_CLOSE);
+			main.setVisible(true);
+			MainFrame.getCzyStateLabel().setText(username);
+			setVisible(false);
+
 			});
 		}
 		return loginButton;

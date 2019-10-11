@@ -43,6 +43,18 @@ public class ProduceOrder extends JInternalFrame {
 	// 印刷实数
 	private final JTextField realAmount = new JTextField();
 
+	// 切纸规格
+	private final JTextField cutSpecification = new JTextField();
+
+	// 基本订单金额
+	private final JTextField basePay = new JTextField();
+
+	// 其他金额
+	private final JTextField otherPay = new JTextField();
+
+	// 订单总金额
+	private final JTextField totalPay = new JTextField();
+
 	// 客户要求
 	private final JTextField customerDemand = new JTextField();
 
@@ -121,11 +133,7 @@ public class ProduceOrder extends JInternalFrame {
 		initCheckBox();
 		customers.setMaximumRowCount(5);
 		setupComponent(customers, 1, 0, 2, 1, true);
-		customers.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doCustomerSelectAction();
-			}
-		});
+		customers.addActionListener(e -> doCustomerSelectAction());
 
 		setupComponent(new JLabel("客户编号"), 0, 1, 1, 0, false);
 		setupComponent(customerId, 1, 1, 2, 140, true);
@@ -149,11 +157,7 @@ public class ProduceOrder extends JInternalFrame {
 
 		cpts.setMaximumRowCount(5);
 		setupComponent(cpts, 1, 4, 2, 1, true);
-		cpts.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doCtpSelectAction();
-			}
-		});
+		cpts.addActionListener(e -> doCtpSelectAction());
 
 		setupComponent(new JLabel("车间"), 0, 5, 1, 0, false);
 		setupComponent(farm, 1, 5, 2, 140, true);
@@ -193,11 +197,7 @@ public class ProduceOrder extends JInternalFrame {
 
 		materials.setMaximumRowCount(5);
 		setupComponent(materials, 1, 10, 2, 1, true);
-		materials.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doPaperSelectAction();
-			}
-		});
+		materials.addActionListener(e -> doPaperSelectAction());
 
 		setupComponent(new JLabel("纸张名称"), 0, 11, 1, 0, false);
 		setupComponent(paperName, 1, 11, 2, 140, true);
@@ -245,62 +245,60 @@ public class ProduceOrder extends JInternalFrame {
 	}
 
 	private void initialBtn() {
-		saveBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent e) {
-				if (customerId.getText().equals("") || cptSpecification.getText().equals("") || paperName.getText().equals("")) {
-					JOptionPane.showMessageDialog(ProduceOrder.this,
-							"生产单相关信息不能为空！", "提示信息", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
-				ResultSet set = Dao.query("select max(id) from tb_sell_main");
-				String id = null;
-				try {
-					if (set != null && set.next()) {
-						String sid = set.getString(1);
-						if (sid == null)
-							id = "1001";
-						else {
-							id = String.valueOf(Integer.parseInt(sid) + 1);
-						}
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				TbSellMain spInfo = new TbSellMain();
-				spInfo.setId(id);
-				spInfo.setCustomerId(customerId.getText());
-				spInfo.setCustomerName(customerName.getText());
-				spInfo.setMobile(mobile.getText());
-				spInfo.setPayType(payType.getText());
-				spInfo.setCustomerRemark(customerRemark.getText());
-				spInfo.setFarm(farm.getText());
-				spInfo.setExposureDemand(exposureDemand.getText());
-				spInfo.setCptSpecification(cptSpecification.getText());
-				spInfo.setLocation(location.getText());
-				spInfo.setChromaticNumber(chromaticNumber.getText());
-				spInfo.setExposureDirective(exposureDirective.getText());
-				spInfo.setPrintMethod(printMethod.getText());
-				spInfo.setPrintRemark(printRemark.getText());
-				Item demandItem = (Item) printDemand.getSelectedItem();
-				spInfo.setPrintDemand(demandItem.getName());
-				spInfo.setPaperName(paperName.getText());
-				spInfo.setPaperAmount(paperAmount.getText());
-				spInfo.setPaperSpecification(paperSpecification.getText());
-				spInfo.setPaperRemark(paperRemark.getText());
-				spInfo.setAmount(amount.getText());
-				spInfo.setRealAmount(realAmount.getText());
-				spInfo.setCustomerDemand(customerDemand.getText());
-				spInfo.setDescription(description.getText());
-				spInfo.setUserMade(userMade.getText());
-				spInfo.setCustomerConfirmed(customerConfirmed.getText());
-				spInfo.setUserConfirmed(userConfirmed.getText());
-				spInfo.setUserEnded(userEnded.getText());
-				Dao.addSell(spInfo);
+		saveBtn.addActionListener(e -> {
+			if (customerId.getText().equals("") || cptSpecification.getText().equals("") || paperName.getText().equals("")) {
 				JOptionPane.showMessageDialog(ProduceOrder.this,
-						"添加生产单成功", "信息提示", JOptionPane.INFORMATION_MESSAGE);
-				resetBtn.doClick();
+						"生产单相关信息不能为空！", "提示信息", JOptionPane.ERROR_MESSAGE);
+				return;
 			}
+
+			ResultSet set = Dao.query("select max(id) from tb_sell_main");
+			String id = null;
+			try {
+				if (set != null && set.next()) {
+					String sid = set.getString(1);
+					if (sid == null)
+						id = "1001";
+					else {
+						id = String.valueOf(Integer.parseInt(sid) + 1);
+					}
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			TbSellMain spInfo = new TbSellMain();
+			spInfo.setId(id);
+			spInfo.setCustomerId(customerId.getText());
+			spInfo.setCustomerName(customerName.getText());
+			spInfo.setMobile(mobile.getText());
+			spInfo.setPayType(payType.getText());
+			spInfo.setCustomerRemark(customerRemark.getText());
+			spInfo.setFarm(farm.getText());
+			spInfo.setExposureDemand(exposureDemand.getText());
+			spInfo.setCptSpecification(cptSpecification.getText());
+			spInfo.setLocation(location.getText());
+			spInfo.setChromaticNumber(chromaticNumber.getText());
+			spInfo.setExposureDirective(exposureDirective.getText());
+			spInfo.setPrintMethod(printMethod.getText());
+			spInfo.setPrintRemark(printRemark.getText());
+			Item demandItem = (Item) printDemand.getSelectedItem();
+			spInfo.setPrintDemand(demandItem.getName());
+			spInfo.setPaperName(paperName.getText());
+			spInfo.setPaperAmount(paperAmount.getText());
+			spInfo.setPaperSpecification(paperSpecification.getText());
+			spInfo.setPaperRemark(paperRemark.getText());
+			spInfo.setAmount(amount.getText());
+			spInfo.setRealAmount(realAmount.getText());
+			spInfo.setCustomerDemand(customerDemand.getText());
+			spInfo.setDescription(description.getText());
+			spInfo.setUserMade(userMade.getText());
+			spInfo.setCustomerConfirmed(customerConfirmed.getText());
+			spInfo.setUserConfirmed(userConfirmed.getText());
+			spInfo.setUserEnded(userEnded.getText());
+			Dao.addSell(spInfo);
+			JOptionPane.showMessageDialog(ProduceOrder.this,
+					"添加生产单成功", "信息提示", JOptionPane.INFORMATION_MESSAGE);
+			resetBtn.doClick();
 		});
 		setupComponent(saveBtn, 1, 30, 1, 1, false);
 		final GridBagConstraints gridBagConstraints_20 = new GridBagConstraints();
@@ -310,13 +308,11 @@ public class ProduceOrder extends JInternalFrame {
 		gridBagConstraints_20.gridx = 1;
 		// 重置按钮
 		setupComponent(resetBtn, 3, 30, 1, 1, false);
-		resetBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent e) {
-				resetCustomerInfo();
-				resetCptInfo();
-				resetPaperInfo();
-				resetBaseInfo();
-			}
+		resetBtn.addActionListener(e -> {
+			resetCustomerInfo();
+			resetCptInfo();
+			resetPaperInfo();
+			resetBaseInfo();
 		});
 	}
 
@@ -420,13 +416,16 @@ public class ProduceOrder extends JInternalFrame {
 		final GridBagConstraints gridBagConstrains = new GridBagConstraints();
 		gridBagConstrains.gridx = gridx;
 		gridBagConstrains.gridy = gridy;
-		if (gridwidth > 1)
+		if (gridwidth > 1) {
 			gridBagConstrains.gridwidth = gridwidth;
-		if (ipadx > 0)
+		}
+		if (ipadx > 0) {
 			gridBagConstrains.ipadx = ipadx;
+		}
 		gridBagConstrains.insets = new Insets(5, 1, 3, 1);
-		if (fill)
+		if (fill) {
 			gridBagConstrains.fill = GridBagConstraints.HORIZONTAL;
+		}
 		getContentPane().add(component, gridBagConstrains);
 	}
 
@@ -446,8 +445,9 @@ public class ProduceOrder extends JInternalFrame {
 			Item item = new Item();
 			item.setId(element.get(0).toString().trim());
 			item.setName(element.get(0).toString().trim() + ":" + element.get(4).toString().trim());
-			if (items.contains(item))
+			if (items.contains(item)) {
 				continue;
+			}
 			items.add(item);
 			materials.addItem(item);
 		}
@@ -455,11 +455,11 @@ public class ProduceOrder extends JInternalFrame {
 
 	private void initCpts() {
 		String selectedCustomerId = customerId.getText();
-		List<Item> items = new ArrayList<Item>();
+		List<Item> items = new ArrayList<>();
 		List cptList = Dao.getSpInfos(selectedCustomerId);
 		cpts.removeAllItems();
 		for (Iterator iter = cptList.iterator(); iter.hasNext();) {
-			java.util.List element = (List) iter.next();
+			List element = (List) iter.next();
 			Item item = new Item();
 			item.setId(element.get(0).toString().trim());
 			item.setName(element.get(0).toString().trim() + ":" + element.get(13).toString().trim());
@@ -473,15 +473,16 @@ public class ProduceOrder extends JInternalFrame {
 
 	private void initCustomers() {
 		List customerList = Dao.getKhInfos();
-		List<Item> items = new ArrayList<Item>();
+		List<Item> items = new ArrayList<>();
 		customers.removeAllItems();
 		for (Iterator iter = customerList.iterator(); iter.hasNext();) {
 			java.util.List element = (List) iter.next();
 			Item item = new Item();
 			item.setId(element.get(0).toString().trim());
 			item.setName(element.get(1).toString().trim());
-			if (items.contains(item))
+			if (items.contains(item)) {
 				continue;
+			}
 			items.add(item);
 			customers.addItem(item);
 		}

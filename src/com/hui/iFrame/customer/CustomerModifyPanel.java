@@ -62,11 +62,7 @@ public class CustomerModifyPanel extends JPanel {
         setupComponent(new JLabel("客户列表"), 0, 5, 1, 0, false);
 		customers.setPreferredSize(new Dimension(230, 21));
 		initComboBox();
-		customers.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doKeHuSelectAction();
-			}
-		});
+		customers.addActionListener(e -> doKeHuSelectAction());
         setupComponent(customers, 1, 5, 2, 0, true);
 
 		modifyBtn = new JButton("修改");
@@ -75,41 +71,40 @@ public class CustomerModifyPanel extends JPanel {
 		panel.add(modifyBtn);
 		panel.add(delBtn);
         setupComponent(panel, 3, 5, 1, 0, false);
-		delBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Item item = (Item) customers.getSelectedItem();
-				if (item == null || !(item instanceof Item))
-					return;
-				int confirm = JOptionPane.showConfirmDialog(
-						CustomerModifyPanel.this, "确认删除？");
-				if (confirm == JOptionPane.YES_OPTION) {
-					int rs = Dao.delete("delete from tb_khinfo where id='"
-							+ item.getId() + "'");
-					if (rs > 0) {
-						JOptionPane.showMessageDialog(CustomerModifyPanel.this,
-								"客户" + item.getName() + "删除成功");
-						customers.removeItem(item);
-					}
+		delBtn.addActionListener(e -> {
+			Item item = (Item) customers.getSelectedItem();
+			if (item == null || !(item instanceof Item)) {
+				return;
+			}
+			int confirm = JOptionPane.showConfirmDialog(
+					CustomerModifyPanel.this, "确认删除？");
+			if (confirm == JOptionPane.YES_OPTION) {
+				int rs = Dao.delete("delete from tb_khinfo where id='"
+						+ item.getId() + "'");
+				if (rs > 0) {
+					JOptionPane.showMessageDialog(CustomerModifyPanel.this,
+							"客户" + item.getName() + "删除成功");
+					customers.removeItem(item);
 				}
 			}
 		});
 
-		modifyBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Item item = (Item) customers.getSelectedItem();
-				TbKhInfo khinfo = new TbKhInfo();
-				khinfo.setId(item.getId());
-				khinfo.setName(name.getText().trim());
-				khinfo.setMobile(mobile.getText().trim());
-				khinfo.setAddress(address.getText().trim());
-                Item payItem = (Item) payType.getSelectedItem();
-				khinfo.setPayType(payItem.getName());
-				khinfo.setRemark(remark.getText().trim());
-				khinfo.setBalance(balance.getText().trim());
-				if (Dao.updateKeHu(khinfo) == 1)
-					JOptionPane.showMessageDialog(CustomerModifyPanel.this, "更新成功！");
-				else
-					JOptionPane.showMessageDialog(CustomerModifyPanel.this, "更新失败！");
+		modifyBtn.addActionListener(e -> {
+			Item item = (Item) customers.getSelectedItem();
+			TbKhInfo khinfo = new TbKhInfo();
+			khinfo.setId(item.getId());
+			khinfo.setName(name.getText().trim());
+			khinfo.setMobile(mobile.getText().trim());
+			khinfo.setAddress(address.getText().trim());
+			Item payItem = (Item) payType.getSelectedItem();
+			khinfo.setPayType(payItem.getName());
+			khinfo.setRemark(remark.getText().trim());
+			khinfo.setBalance(balance.getText().trim());
+			if (Dao.updateKeHu(khinfo) == 1) {
+				JOptionPane.showMessageDialog(CustomerModifyPanel.this, "更新成功！");
+			}
+			else {
+				JOptionPane.showMessageDialog(CustomerModifyPanel.this, "更新失败！");
 			}
 		});
 	}
@@ -122,15 +117,16 @@ public class CustomerModifyPanel extends JPanel {
 
 	public void initComboBox() {
 		List khInfo = Dao.getKhInfos();
-		List<Item> items = new ArrayList<Item>();
+		List<Item> items = new ArrayList<>();
 		customers.removeAllItems();
 		for (Iterator iter = khInfo.iterator(); iter.hasNext();) {
 			List element = (List) iter.next();
 			Item item = new Item();
 			item.setId(element.get(0).toString().trim());
 			item.setName(element.get(1).toString().trim());
-			if (items.contains(item))
+			if (items.contains(item)) {
 				continue;
+			}
 			items.add(item);
 			customers.addItem(item);
 		}
@@ -142,13 +138,16 @@ public class CustomerModifyPanel extends JPanel {
 		final GridBagConstraints gridBagConstrains = new GridBagConstraints();
 		gridBagConstrains.gridx = gridx;
 		gridBagConstrains.gridy = gridy;
-		if (gridwidth > 1)
+		if (gridwidth > 1) {
 			gridBagConstrains.gridwidth = gridwidth;
-		if (ipadx > 0)
+		}
+		if (ipadx > 0) {
 			gridBagConstrains.ipadx = ipadx;
+		}
 		gridBagConstrains.insets = new Insets(5, 1, 3, 1);
-		if (fill)
+		if (fill) {
 			gridBagConstrains.fill = GridBagConstraints.HORIZONTAL;
+		}
 		add(component, gridBagConstrains);
 	}
 	private void doKeHuSelectAction() {
@@ -173,6 +172,7 @@ public class CustomerModifyPanel extends JPanel {
 		balance.setText(khInfo.getBalance());
 	}
 	public class InputKeyListener extends KeyAdapter {
+		@Override
 		public void keyTyped(KeyEvent e) {
 			String key="-0123456789"+(char)8;
 			if(key.indexOf(e.getKeyChar())<0){
