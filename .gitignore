@@ -1,1 +1,13 @@
 /bin/
+.idea
+.idea/.name
+.idea/artifacts/
+.idea/codeStyles/
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.settings/
+classes/
+/.idea/uiDesigner.xml

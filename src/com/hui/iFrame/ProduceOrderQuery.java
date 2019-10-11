@@ -11,7 +11,7 @@ import com.hui.Dao.Dao;
 import com.hui.javaBean.Item;
 import com.hui.javaBean.TbSellMain;
 
-public class ShangPinChaXun extends JInternalFrame {
+public class ProduceOrderQuery extends JInternalFrame {
 
 	// 生产单编号
 	private final JTextField orderId = new JTextField();
@@ -100,7 +100,7 @@ public class ShangPinChaXun extends JInternalFrame {
 	// 生产单列表
 	private final JComboBox orders = new JComboBox();
 
-	public ShangPinChaXun() {
+	public ProduceOrderQuery() {
 		super();
 		setIconifiable(true);
 		setClosable(true);

@@ -7,19 +7,20 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
-import com.hui.iFrame.GysGuanli.GysTianJiaPanel;
-import com.hui.iFrame.GysGuanli.GysXiuGaiPanel;
+import com.hui.iFrame.cpt.CptSavePanel;
+import com.hui.iFrame.cpt.CptModifyPanel;
 
-public class GysGuanLi extends JInternalFrame {
-	public GysGuanLi() {
+
+public class CptFrame extends JInternalFrame {
+	public CptFrame() {
 		setIconifiable(true);
 		setClosable(true);
-		setTitle("材料入库");
+		setTitle("CPT/菲林入库");
 		JTabbedPane tabPane = new JTabbedPane();
-		final GysXiuGaiPanel spxgPanel = new GysXiuGaiPanel();
-		final GysTianJiaPanel sptjPanel = new GysTianJiaPanel();
-		tabPane.addTab("材料添加", null, sptjPanel, "材料添加");
-		tabPane.addTab("材料修改", null, spxgPanel, "材料修改");
+		final CptModifyPanel spxgPanel = new CptModifyPanel();
+		final CptSavePanel sptjPanel = new CptSavePanel();
+		tabPane.addTab("CPT/菲林添加", null, sptjPanel, "CPT/菲林添加&&");
+		tabPane.addTab("CPT/菲林修改", null, spxgPanel, "CPT/菲林修改&&");
 		getContentPane().add(tabPane);
 		tabPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {

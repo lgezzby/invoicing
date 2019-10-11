@@ -1,4 +1,4 @@
-package com.hui.iFrame.GysGuanli;
+package com.hui.iFrame.paper;
 
 
 import java.awt.*;
@@ -14,10 +14,9 @@ import com.hui.Dao.Dao;
 import com.hui.javaBean.Item;
 import com.hui.javaBean.TbGysInfo;
 
-import KeyListener.InputKeyListener;
 import com.hui.javaBean.TbKhInfo;
 
-public class GysTianJiaPanel extends JPanel {
+public class PaperSavePanel extends JPanel {
 	// 客户编号
 	private JTextField customerId = new JTextField();
 	// 客户名称
@@ -42,7 +41,7 @@ public class GysTianJiaPanel extends JPanel {
 	// 客户列表
 	private JComboBox customers = new JComboBox();
 
-	public GysTianJiaPanel() {
+	public PaperSavePanel() {
 		setLayout(new GridBagLayout());
 		setBounds(10, 10, 510, 302);
 
@@ -89,7 +88,7 @@ public class GysTianJiaPanel extends JPanel {
 			public void actionPerformed(final ActionEvent e) {
 				if (customerId.getText().equals("")
 						|| paperName.getText().equals("")) {
-					JOptionPane.showMessageDialog(GysTianJiaPanel.this, "客户信息和纸张名称不能为空");
+					JOptionPane.showMessageDialog(PaperSavePanel.this, "客户信息和纸张名称不能为空");
 					return;
 				}
 				ResultSet haveUser = Dao
@@ -98,7 +97,7 @@ public class GysTianJiaPanel extends JPanel {
 				try {
 					if (haveUser.next()){
 						System.out.println("error");
-						JOptionPane.showMessageDialog(GysTianJiaPanel.this,
+						JOptionPane.showMessageDialog(PaperSavePanel.this,
 								"材料已存在！", "信息提示",
 								JOptionPane.INFORMATION_MESSAGE);
 						return;
@@ -131,7 +130,7 @@ public class GysTianJiaPanel extends JPanel {
 				gysInfo.setRemark(remark.getText());
 				gysInfo.setUserSigned(userSigned.getText());
 				Dao.addGys(gysInfo);
-				JOptionPane.showMessageDialog(GysTianJiaPanel.this, "添加成功",
+				JOptionPane.showMessageDialog(PaperSavePanel.this, "添加成功",
 						"信息提示", JOptionPane.INFORMATION_MESSAGE);
 				resetBtn.doClick();
 			}
