@@ -1,7 +1,6 @@
 package com.hui.iFrame;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 
@@ -9,7 +8,7 @@ import javax.swing.*;
 
 import com.hui.Dao.Dao;
 import com.hui.javaBean.Item;
-import com.hui.javaBean.TbSellMain;
+import com.hui.javaBean.ProduceOrderBO;
 
 public class ProduceOrderQuery extends JInternalFrame {
 
@@ -251,7 +250,7 @@ public class ProduceOrderQuery extends JInternalFrame {
 			return;
 		}
 		selectedItem = (Item) orders.getSelectedItem();
-		TbSellMain khInfo = Dao.getOrder(selectedItem);
+		ProduceOrderBO khInfo = Dao.getOrder(selectedItem);
 		orderId.setText(khInfo.getId());
 		customerId.setText(khInfo.getCustomerId());
 		customerName.setText(khInfo.getCustomerName());

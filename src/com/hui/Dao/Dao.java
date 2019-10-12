@@ -6,16 +6,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.hui.javaBean.CptBO;
 import com.hui.javaBean.Item;
-import com.hui.javaBean.TbGysInfo;
+import com.hui.javaBean.PaperBO;
 import com.hui.javaBean.TbJsr;
-import com.hui.javaBean.TbKhInfo;
+import com.hui.javaBean.CustomerBO;
 import com.hui.javaBean.TbKucun;
 import com.hui.javaBean.TbRukuDetail;
 import com.hui.javaBean.TbRukuMain;
-import com.hui.javaBean.TbSellDetail;
-import com.hui.javaBean.TbSellMain;
-import com.hui.javaBean.TbSpinfo;
+import com.hui.javaBean.ProduceOrderBO;
 import com.mysql.jdbc.StringUtils;
 
 
@@ -76,13 +75,13 @@ public class Dao {
 		closeResourse();
 		return list;
 	}
-	public static TbGysInfo getGysInfo(Item item) {
+	public static PaperBO getGysInfo(Item item) {
 		String where = "name='"+item.getName()+"'";
 		if(item.getId()!=null){
 			where = "id='"+item.getId()+"'";
 		}
 		//System.out.println(where);
-		TbGysInfo info = new TbGysInfo();
+		PaperBO info = new PaperBO();
 		ResultSet set = findForResultSet("select * from tb_gysinfo where " + where);
 		//System.out.println(set);
 		try{
@@ -165,7 +164,7 @@ public class Dao {
 						+ "," + details.getSl() + ")");//id自动增加
 				Item item = new Item();
 				item.setId(details.getSpid());
-				TbSpinfo spInfo = getSpInfo(item);
+				CptBO spInfo = getSpInfo(item);
 				if (spInfo.getId() != null && !spInfo.getId().isEmpty()) {
 					TbKucun kucun = getKucun(item);
 					if (kucun.getId() == null || kucun.getId().isEmpty()) {
@@ -263,14 +262,14 @@ public class Dao {
 		closeResourse();
 		return kucun;
 	}
-	public static TbSpinfo getSpInfo(Item item) {
+	public static CptBO getSpInfo(Item item) {
 			String where = "spname='" + item.getName() + "'";
 			if (item.getId() != null) {
 				where = "id='" + item.getId() + "'";
 			}
 			ResultSet rs = findForResultSet("select * from tb_spinfo where "
 					+ where);
-			TbSpinfo spInfo = new TbSpinfo();
+			CptBO spInfo = new CptBO();
 			try {
 				if (rs.next()) {
 					spInfo.setId(rs.getString("id").trim());
@@ -320,7 +319,7 @@ public class Dao {
 	public static String getSellMainMaxId(java.sql.Date date) {
 		return getMainTypeTableMaxId(date, "tb_sell_main", "XS", "sellID");
 	}
-	public static boolean insertSellInfo(TbSellMain sellMain) {
+	public static boolean insertSellInfo(ProduceOrderBO sellMain) {
 //		boolean r1,res;
 //
 //			res = insert("insert into tb_sell_main values('"+sellMain.getSellId()+"','"+sellMain.getPzs()+"','"+sellMain.getJe()+"','"
@@ -397,8 +396,8 @@ public class Dao {
 		closeResourse();
 		return list;
 	}
-	public static TbKhInfo getKhInfo(Item item) {
-		TbKhInfo kehu = new TbKhInfo();
+	public static CustomerBO getKhInfo(Item item) {
+		CustomerBO kehu = new CustomerBO();
 		String where = "name='" + item.getName() + "'";
 		if (item.getId() != null) {
 			where = "id='" + item.getId() + "'";
@@ -455,7 +454,7 @@ public class Dao {
 		list = findForList("select * from tb_spinfo" + where);
 		return list;
 	}
-	public static void addSp(TbSpinfo sp) {
+	public static void addSp(CptBO sp) {
 		insert("insert into tb_spinfo values ('"+sp.getId()+"','"+sp.getCustomerId()+"','"+sp.getName()+"','"+sp.getMobile()+
 				"','"+sp.getFarm()+"','"+sp.getDemand()+"','"+sp.getSpecification()+"','"+sp.getLocation()+"','"+sp.getDirective()+
 				"','"+sp.getChromaticNumber()+"','"+sp.getMethod()+"','"+sp.getRemark()+"','"+sp.getUserSigned()+"','"+new Timestamp(System.currentTimeMillis())+"')");
@@ -473,32 +472,32 @@ public class Dao {
 		return result;
 
 	}
-	public static int updateSp(TbSpinfo sp) {
+	public static int updateSp(CptBO sp) {
 		int re = update("update tb_spinfo set customer_id='"+sp.getCustomerId()+"',name='"+sp.getName()+"',mobile='"+sp.getMobile()+
 				"',farm='"+sp.getFarm()+"',demand='"+sp.getDemand()+"',specification='"+sp.getSpecification()+"',location='"+sp.getLocation()+
 				"',directive='"+sp.getDirective()+"',chromatic_number='"+sp.getChromaticNumber()+"',method='"+sp.getMethod()+
 				"',remark='"+sp.getRemark()+"',user_signed='"+sp.getUserSigned()+"' where id='"+sp.getId()+"'");
 		return re;
 	}
-	public static void addKeHu(TbKhInfo kh) {
+	public static void addKeHu(CustomerBO kh) {
 		
 		insert("insert into tb_khinfo values ('"+kh.getId()+"','"+kh.getName()+"','"+kh.getMobile()+"','"+
 		kh.getAddress()+"','"+kh.getPayType()+"','"+kh.getRemark()+"','"+kh.getBalance()+"')");
 		
 	}
-	public static int updateKeHu(TbKhInfo kh) {
+	public static int updateKeHu(CustomerBO kh) {
 		int rs =update("update tb_khinfo set name='"+kh.getName()+"',mobile='"+kh.getMobile()+"',address='"+kh.getAddress()+"',pay_type='"+kh.getPayType()+"',remark='"+
 	kh.getRemark()+"',balance='"+kh.getBalance()+ "'where id='" + kh.getId() +"'");
 		return rs;
 	}
-	public static void addGys(TbGysInfo gys) {
+	public static void addGys(PaperBO gys) {
 		insert("insert into tb_gysinfo values('"+gys.getId()+"','"+gys.getCustomerId()+"','"+gys.getName()+"','"+gys.getMobile()+"','"+
 				gys.getPaperName()+"','"+gys.getSpecification()+"','"+gys.getAmount()+"','"+gys.getRemark()+"','"+gys.getUserSigned()+"','"+
 				new Timestamp(System.currentTimeMillis())+"')");
 		
 	}
 
-	public static int updateGys(TbGysInfo gys) {
+	public static int updateGys(PaperBO gys) {
 		int rs = update("update tb_gysinfo set customer_id='"+gys.getCustomerId()+"',name='"+gys.getName()+"',mobile='"+gys.getMobile()+
 				"',paper_name='"+gys.getPaperName()+"',specification='"+gys.getSpecification()+"',amount='"+gys.getAmount()+"',remark='"+gys.getRemark()+
 				"',user_signed='"+gys.getUserSigned()+"' where id='"+gys.getId()+"'");
@@ -543,7 +542,7 @@ public class Dao {
 		return re;
 	}
 
-	public static void addSell(TbSellMain spInfo) {
+	public static void addSell(ProduceOrderBO spInfo) {
 		insert("insert into tb_sell_main values('"+spInfo.getId()+"','"+spInfo.getCustomerId()+"','"+spInfo.getCustomerName()+"','"+spInfo.getMobile()+"','"+
 				spInfo.getPayType()+"','"+spInfo.getCustomerRemark()+"','"+spInfo.getFarm()+"','"+spInfo.getExposureDemand()+"','"+spInfo.getCptSpecification()+"','"+
 				spInfo.getLocation()+"','"+spInfo.getExposureDirective()+"','"+spInfo.getChromaticNumber()+"','"+spInfo.getPrintMethod()+"','"+spInfo.getPrintRemark()+"','"+
@@ -552,8 +551,8 @@ public class Dao {
 				spInfo.getCustomerConfirmed()+"','"+spInfo.getUserConfirmed()+"','"+spInfo.getUserEnded()+"','"+new Timestamp(System.currentTimeMillis())+"')");
 	}
 
-	public static TbSellMain getOrder(Item item) {
-		TbSellMain kehu = new TbSellMain();
+	public static ProduceOrderBO getOrder(Item item) {
+		ProduceOrderBO kehu = new ProduceOrderBO();
 		String where = "name='" + item.getName() + "'";
 		if (item.getId() != null) {
 			where = "id='" + item.getId() + "'";

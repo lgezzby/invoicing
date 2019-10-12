@@ -11,9 +11,9 @@ import javax.swing.*;
 
 import com.hui.Dao.Dao;
 import com.hui.javaBean.Item;
-import com.hui.javaBean.TbGysInfo;
+import com.hui.javaBean.PaperBO;
 
-import com.hui.javaBean.TbKhInfo;
+import com.hui.javaBean.CustomerBO;
 
 public class PaperSavePanel extends JPanel {
 	// 客户编号
@@ -114,7 +114,7 @@ public class PaperSavePanel extends JPanel {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			TbGysInfo gysInfo = new TbGysInfo();
+			PaperBO gysInfo = new PaperBO();
 			gysInfo.setId(id);
 			gysInfo.setCustomerId(customerId.getText().trim());
 			gysInfo.setName(name.getText().trim());
@@ -151,7 +151,7 @@ public class PaperSavePanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) customers.getSelectedItem();
-		TbKhInfo khInfo = Dao.getKhInfo(selectedItem);
+		CustomerBO khInfo = Dao.getKhInfo(selectedItem);
 		customerId.setText(khInfo.getId());
 		name.setText(khInfo.getName());
 		mobile.setText(khInfo.getMobile());

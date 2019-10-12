@@ -1,5 +1,5 @@
 package com.hui.javaBean;
-public class TbSpinfo implements java.io.Serializable {
+public class CptBO implements java.io.Serializable {
 	private String id;
 	private String gmtCreated;
 	private String customerId;
@@ -15,7 +15,7 @@ public class TbSpinfo implements java.io.Serializable {
 	private String remark;
 	private String userSigned;
 
-	public TbSpinfo() {
+	public CptBO() {
 	}
 
 	public String getId() {

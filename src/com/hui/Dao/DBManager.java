@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
-import javax.sql.DataSource;
-
 import org.apache.commons.dbcp2.*;
 
 public class DBManager {
@@ -34,10 +32,7 @@ public class DBManager {
 	public static DBManager getDBManager(){
 		return dbManager;
 	}
-	
-	/*
-	 * 获取连接
-	 */
+
 	public Connection getConnection(){
 		Connection conn = null ;
 		try {
@@ -54,29 +49,28 @@ public class DBManager {
 	 * @param rs
 	 */
 	public void closeResource(Connection conn , Statement stm , ResultSet rs){
-		
 		try {
-				if(rs!=null){
-					rs.close();
+			if (rs != null) {
+				rs.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stm != null) {
+					stm.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();	
-			}finally{	
-					try {
-						if(stm!=null){
-							stm.close();
-						}
-					} catch (SQLException e) {
-						e.printStackTrace();					
-				   }finally{
-					   try{
-						   if(conn!=null){
-							   conn.close();
-						   }
-					   }catch(SQLException e){
-						   e.printStackTrace();
-					   }
-				   }
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
+		}
 	}
 }

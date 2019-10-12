@@ -1,6 +1,6 @@
 package com.hui.javaBean;
 
-public class TbGysInfo {
+public class PaperBO {
 	private String id ;
 	private String gmtCreated;
 	private String customerId;
@@ -12,7 +12,7 @@ public class TbGysInfo {
 	private String remark;
 	private String userSigned;
 
-	public TbGysInfo() {
+	public PaperBO() {
 	}
 
 	public String getId() {

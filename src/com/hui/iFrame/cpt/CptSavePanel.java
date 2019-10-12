@@ -1,7 +1,6 @@
 package com.hui.iFrame.cpt;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.sql.*;
 import java.util.*;
 import java.util.List;
@@ -9,9 +8,9 @@ import java.util.List;
 import javax.swing.*;
 
 import com.hui.Dao.Dao;
+import com.hui.javaBean.CptBO;
 import com.hui.javaBean.Item;
-import com.hui.javaBean.TbKhInfo;
-import com.hui.javaBean.TbSpinfo;
+import com.hui.javaBean.CustomerBO;
 import mainFrame.MainFrame;
 
 public class CptSavePanel extends JPanel {
@@ -133,7 +132,7 @@ public class CptSavePanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) customers.getSelectedItem();
-		TbKhInfo khInfo = Dao.getKhInfo(selectedItem);
+		CustomerBO khInfo = Dao.getKhInfo(selectedItem);
 		customerId.setText(khInfo.getId());
 		name.setText(khInfo.getName());
 		mobile.setText(khInfo.getMobile());
@@ -162,7 +161,7 @@ public class CptSavePanel extends JPanel {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			TbSpinfo spInfo = new TbSpinfo();
+			CptBO spInfo = new CptBO();
 			spInfo.setId(id);
 			spInfo.setCustomerId(customerId.getText());
 			spInfo.setName(name.getText());

@@ -5,7 +5,7 @@ package com.hui.javaBean;
  * @author zhengby
  *
  */
-public class TbKhInfo {
+public class CustomerBO {
 	private String id;
 	private String name;
     private String mobile;
@@ -14,7 +14,7 @@ public class TbKhInfo {
     private String remark;
     private String balance;
 
-	public TbKhInfo() {
+	public CustomerBO() {
 	}
 
 	public String getId() {

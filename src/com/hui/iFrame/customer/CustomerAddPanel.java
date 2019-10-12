@@ -3,7 +3,7 @@ package com.hui.iFrame.customer;
 
 import com.hui.Dao.Dao;
 import com.hui.javaBean.Item;
-import com.hui.javaBean.TbKhInfo;
+import com.hui.javaBean.CustomerBO;
 
 import KeyListener.InputKeyListener;
 import com.mysql.jdbc.StringUtils;
@@ -129,7 +129,7 @@ public class CustomerAddPanel extends JPanel {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			TbKhInfo khinfo = new TbKhInfo();
+			CustomerBO khinfo = new CustomerBO();
 			khinfo.setId(id);
 			khinfo.setName(name.getText().trim());
 			khinfo.setMobile(mobile.getText().trim());

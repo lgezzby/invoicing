@@ -10,7 +10,7 @@ import javax.swing.*;
 
 import com.hui.Dao.Dao;
 import com.hui.javaBean.Item;
-import com.hui.javaBean.TbKhInfo;
+import com.hui.javaBean.CustomerBO;
 
 
 public class CustomerModifyPanel extends JPanel {
@@ -91,7 +91,7 @@ public class CustomerModifyPanel extends JPanel {
 
 		modifyBtn.addActionListener(e -> {
 			Item item = (Item) customers.getSelectedItem();
-			TbKhInfo khinfo = new TbKhInfo();
+			CustomerBO khinfo = new CustomerBO();
 			khinfo.setId(item.getId());
 			khinfo.setName(name.getText().trim());
 			khinfo.setMobile(mobile.getText().trim());
@@ -156,7 +156,7 @@ public class CustomerModifyPanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) customers.getSelectedItem();
-		TbKhInfo khInfo = Dao.getKhInfo(selectedItem);
+		CustomerBO khInfo = Dao.getKhInfo(selectedItem);
 		name.setText(khInfo.getName());
 		mobile.setText(khInfo.getMobile());
 		address.setText(khInfo.getAddress());

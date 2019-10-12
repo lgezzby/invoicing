@@ -1,12 +1,7 @@
 package com.hui.iFrame;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -21,7 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -31,22 +25,19 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
 import com.hui.Dao.Dao;
+import com.hui.javaBean.CptBO;
 import com.hui.javaBean.Item;
-import com.hui.javaBean.TbGysInfo;
-import com.hui.javaBean.TbRkthMain;
+import com.hui.javaBean.PaperBO;
 import com.hui.javaBean.TbRukuDetail;
 import com.hui.javaBean.TbRukuMain;
-import com.hui.javaBean.TbSpinfo;
 
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JFrame;
 
 public class JinHuoDan_IFrame extends JInternalFrame {
 	private JTextField idField;
@@ -205,12 +196,12 @@ public class JinHuoDan_IFrame extends JInternalFrame {
 				idField.setText(maxId);
 				stopTableCellEditing();
 				for (int i = 0; i <= table.getRowCount()-1; i++) {
-					if (table.getValueAt(i, 0) == null || ((TbSpinfo)table.getValueAt(i, 0)).toString()==null)
+					if (table.getValueAt(i, 0) == null || ((CptBO)table.getValueAt(i, 0)).toString()==null)
 					{
 						System.out.println("停止");
 						
 						spComboBox.removeAllItems();
-						spComboBox.addItem(new TbSpinfo());
+						spComboBox.addItem(new CptBO());
 						ResultSet rs = Dao.query("select * from tb_spinfo where gysname='"+getGysComboBox().getSelectedItem()+"'");
 						System.out.println("select * from tb_spinfo where gysname='"+getGysComboBox().getSelectedItem()+"'");
 						updateSpComboBox(rs);
@@ -261,7 +252,7 @@ public class JinHuoDan_IFrame extends JInternalFrame {
 				Set<TbRukuDetail> set = ruMain.getSet();
 				int rows = table.getRowCount();
 				for (int i = 0; i < rows; i++) {
-					TbSpinfo spinfo = (TbSpinfo) table.getValueAt(i, 0);
+					CptBO spinfo = (CptBO) table.getValueAt(i, 0);
 					if (spinfo == null || spinfo.getId() == null
 							|| spinfo.getId().isEmpty())
 						continue;
@@ -306,7 +297,7 @@ public class JinHuoDan_IFrame extends JInternalFrame {
 	protected void initSpBox() {
 		List<String> list = new ArrayList<String>();
 		for(int i = 0 ; table != null && i <table.getRowCount() ; i++ ){
-			TbSpinfo spinfo =(TbSpinfo)table.getValueAt(i, 0);
+			CptBO spinfo =(CptBO)table.getValueAt(i, 0);
 			if(spinfo!=null&&spinfo.getId()!=null){
 				list.add(spinfo.getId());
 			}
@@ -350,7 +341,7 @@ public class JinHuoDan_IFrame extends JInternalFrame {
 
 	private void updateLxr() {
 		Item item = (Item)gysComboBox.getSelectedItem();
-		TbGysInfo gysInfo = Dao.getGysInfo(item);
+		PaperBO gysInfo = Dao.getGysInfo(item);
 		Dao.closeResourse();
 //		lxrField.setText(gysInfo.getLian());
 		
@@ -400,12 +391,12 @@ public class JinHuoDan_IFrame extends JInternalFrame {
 					int rows = table.getRowCount();
 					int count = 0;
 					double money = 0.0;
-					TbSpinfo column = null;
+					CptBO column = null;
 					Object valueAt = table.getValueAt(rows - 1, 0);
-					if(!(valueAt instanceof TbSpinfo))
+					if(!(valueAt instanceof CptBO))
 						return;
 					if (rows > 0)
-						column = (TbSpinfo) valueAt;
+						column = (CptBO) valueAt;
 					if (rows > 0 && (column == null || column.getId()==null ||column.getId().isEmpty()))
 						rows--;
 					for (int i = 0; i < rows; i++) {
@@ -434,7 +425,7 @@ public class JinHuoDan_IFrame extends JInternalFrame {
 						return ;
 					}
 					spComboBox.removeAllItems();
-					spComboBox.addItem(new TbSpinfo());
+					spComboBox.addItem(new CptBO());
 					ResultSet rs = Dao.query("select * from tb_spinfo where gysname='"+getGysComboBox().getSelectedItem()+"'");
 					System.out.println("更新商品："+"select * from tb_spinfo where gysname='"+getGysComboBox().getSelectedItem()+"'");
 					updateSpComboBox(rs);
@@ -444,7 +435,7 @@ public class JinHuoDan_IFrame extends JInternalFrame {
 			spComboBox.addItemListener(new ItemListener() {				
 				@Override
 				public void itemStateChanged(ItemEvent e) {
-					TbSpinfo info = (TbSpinfo) spComboBox.getSelectedItem();
+					CptBO info = (CptBO) spComboBox.getSelectedItem();
 					if (info != null && info.getId() != null) {
 						updateTable();	
 					}				
@@ -455,7 +446,7 @@ public class JinHuoDan_IFrame extends JInternalFrame {
 	}
 
 	protected synchronized void updateTable() {
-		TbSpinfo spinfo = (TbSpinfo)spComboBox.getSelectedItem();
+		CptBO spinfo = (CptBO)spComboBox.getSelectedItem();
 		int row = table.getSelectedRow();
 		if(row>=0 && spinfo != null){
 //			table.setValueAt(spinfo.getId(),row , 1);
@@ -474,7 +465,7 @@ public class JinHuoDan_IFrame extends JInternalFrame {
 	protected void updateSpComboBox(ResultSet set) {
 		//判断原来表中已有的商品	
 		for(int i = 0 ; table != null && i <table.getRowCount() ; i++ ){
-			TbSpinfo spinfo1 =(TbSpinfo)table.getValueAt(i, 0);
+			CptBO spinfo1 =(CptBO)table.getValueAt(i, 0);
 			if(spinfo1!=null&&spinfo1.getId()!=null){
 				list.add(spinfo1.getId());
 				System.out.println("list中的id"+spinfo1.getId());
@@ -485,7 +476,7 @@ public class JinHuoDan_IFrame extends JInternalFrame {
 		
 		try {
 			while (set.next()) {
-				TbSpinfo spinfo = new TbSpinfo();
+				CptBO spinfo = new CptBO();
 //				spinfo.setId(set.getString("id").trim());
 //				spinfo.setSpname(set.getString("spname").trim());
 //				spinfo.setCd(set.getString("cd").trim());

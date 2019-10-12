@@ -1,7 +1,6 @@
 package com.hui.iFrame;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,10 +10,10 @@ import javax.swing.*;
 
 import com.hui.Dao.Dao;
 import com.hui.javaBean.Item;
-import com.hui.javaBean.TbGysInfo;
-import com.hui.javaBean.TbKhInfo;
-import com.hui.javaBean.TbSellMain;
-import com.hui.javaBean.TbSpinfo;
+import com.hui.javaBean.PaperBO;
+import com.hui.javaBean.CustomerBO;
+import com.hui.javaBean.ProduceOrderBO;
+import com.hui.javaBean.CptBO;
 import mainFrame.MainFrame;
 
 
@@ -266,7 +265,7 @@ public class ProduceOrder extends JInternalFrame {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			TbSellMain spInfo = new TbSellMain();
+			ProduceOrderBO spInfo = new ProduceOrderBO();
 			spInfo.setId(id);
 			spInfo.setCustomerId(customerId.getText());
 			spInfo.setCustomerName(customerName.getText());
@@ -365,7 +364,7 @@ public class ProduceOrder extends JInternalFrame {
 			return;
 		}
 		selectedItem = (Item) materials.getSelectedItem();
-		TbGysInfo gysInfo = Dao.getGysInfo(selectedItem);
+		PaperBO gysInfo = Dao.getGysInfo(selectedItem);
 		paperName.setText(gysInfo.getPaperName());
 		paperSpecification.setText(gysInfo.getSpecification());
 		paperAmount.setText(gysInfo.getAmount());
@@ -378,7 +377,7 @@ public class ProduceOrder extends JInternalFrame {
 			return;
 		}
 		selectedItem = (Item) cpts.getSelectedItem();
-		TbSpinfo spInfo = Dao.getSpInfo(selectedItem);
+		CptBO spInfo = Dao.getSpInfo(selectedItem);
 		if (!spInfo.getId().isEmpty()) {
 			farm.setText(spInfo.getFarm());
 			exposureDemand.setText(spInfo.getDemand());
@@ -397,7 +396,7 @@ public class ProduceOrder extends JInternalFrame {
 			return;
 		}
 		selectedItem = (Item) customers.getSelectedItem();
-		TbKhInfo khInfo = Dao.getKhInfo(selectedItem);
+		CustomerBO khInfo = Dao.getKhInfo(selectedItem);
 		customerId.setText(khInfo.getId());
 		customerName.setText(khInfo.getName());
 		mobile.setText(khInfo.getMobile());

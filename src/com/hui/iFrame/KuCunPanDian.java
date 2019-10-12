@@ -9,8 +9,8 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import com.hui.Dao.Dao;
+import com.hui.javaBean.CptBO;
 import com.hui.javaBean.Item;
-import com.hui.javaBean.TbSpinfo;
 
 import mainFrame.MainFrame;
 
@@ -90,7 +90,7 @@ public class KuCunPanDian extends JInternalFrame {
 			Item item = new Item();
 			item.setId((String) info.get(0));
 			item.setName((String) info.get(1));
-			TbSpinfo spinfo = Dao.getSpInfo(item);
+			CptBO spinfo = Dao.getSpInfo(item);
 			Object[] row = new Object[columnNames.length];
 			if (spinfo.getId() != null && !spinfo.getId().isEmpty()) {
 //				row[0] = spinfo.getSpname();

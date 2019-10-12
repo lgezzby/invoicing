@@ -1,15 +1,14 @@
 package com.hui.iFrame.cpt;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
 
 import com.hui.Dao.Dao;
 import com.hui.javaBean.Item;
-import com.hui.javaBean.TbKhInfo;
-import com.hui.javaBean.TbSpinfo;
+import com.hui.javaBean.CustomerBO;
+import com.hui.javaBean.CptBO;
 import mainFrame.MainFrame;
 
 public class CptModifyPanel extends JPanel {
@@ -132,7 +131,7 @@ public class CptModifyPanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) customers.getSelectedItem();
-		TbKhInfo khInfo = Dao.getKhInfo(selectedItem);
+		CustomerBO khInfo = Dao.getKhInfo(selectedItem);
 		customerId.setText(khInfo.getId());
 		name.setText(khInfo.getName());
 		mobile.setText(khInfo.getMobile());
@@ -164,7 +163,7 @@ public class CptModifyPanel extends JPanel {
 		//修改按钮
 		modifyBtn.addActionListener(e -> {
 			Item item = (Item) cpts.getSelectedItem();
-			TbSpinfo spInfo = new TbSpinfo();
+			CptBO spInfo = new CptBO();
 			spInfo.setId(item.getId());
 			spInfo.setCustomerId(customerId.getText());
 			spInfo.setName(name.getText());
@@ -280,7 +279,7 @@ public class CptModifyPanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) cpts.getSelectedItem();
-		TbSpinfo spInfo = Dao.getSpInfo(selectedItem);
+		CptBO spInfo = Dao.getSpInfo(selectedItem);
 		if (!spInfo.getId().isEmpty()) {
 			cptId.setText(spInfo.getId());
 			gmtCreated.setText(spInfo.getGmtCreated());

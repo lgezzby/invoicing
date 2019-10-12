@@ -8,9 +8,9 @@ import javax.swing.*;
 
 import com.hui.Dao.Dao;
 import com.hui.javaBean.Item;
-import com.hui.javaBean.TbGysInfo;
+import com.hui.javaBean.PaperBO;
 
-import com.hui.javaBean.TbKhInfo;
+import com.hui.javaBean.CustomerBO;
 
 
 public class PaperModifyPanel extends JPanel {
@@ -124,7 +124,7 @@ public class PaperModifyPanel extends JPanel {
 
 		modifyBtn.addActionListener(e -> {
 			Item item = (Item) materials.getSelectedItem();
-			TbGysInfo gysInfo = new TbGysInfo();
+			PaperBO gysInfo = new PaperBO();
 			gysInfo.setId(item.getId());
 			gysInfo.setCustomerId(customerId.getText());
 			gysInfo.setName(name.getText());
@@ -152,7 +152,7 @@ public class PaperModifyPanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) customers.getSelectedItem();
-		TbKhInfo khInfo = Dao.getKhInfo(selectedItem);
+		CustomerBO khInfo = Dao.getKhInfo(selectedItem);
 		customerId.setText(khInfo.getId());
 		name.setText(khInfo.getName());
 		mobile.setText(khInfo.getMobile());
@@ -199,7 +199,7 @@ public class PaperModifyPanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) materials.getSelectedItem();
-		TbGysInfo gysInfo = Dao.getGysInfo(selectedItem);
+		PaperBO gysInfo = Dao.getGysInfo(selectedItem);
 		materialId.setText(gysInfo.getId());
 		gmtCreated.setText(gysInfo.getGmtCreated());
 		customerId.setText(gysInfo.getCustomerId());

@@ -1,6 +1,6 @@
 package com.hui.javaBean;
 
-public class TbSellMain implements java.io.Serializable {
+public class ProduceOrderBO implements java.io.Serializable {
 
 	private String customerId;
 
@@ -58,7 +58,7 @@ public class TbSellMain implements java.io.Serializable {
 
 	private String userEnded;
 
-	public TbSellMain() {
+	public ProduceOrderBO() {
 	}
 
 	public String getCustomerId() {
