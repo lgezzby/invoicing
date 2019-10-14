@@ -12,10 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.Rectangle;
 import java.awt.Color;
 
-public class GuanYu extends JInternalFrame {
+public class About extends JInternalFrame {
 
 
-	public GuanYu() {
+	public About() {
 		setBackground(Color.LIGHT_GRAY);
 		setNormalBounds(new Rectangle(50, 30, 0, 0));
 		setLocation(50, 30);

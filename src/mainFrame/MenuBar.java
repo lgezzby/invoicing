@@ -20,20 +20,13 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import com.hui.iFrame.BackupAndRestore;
-import com.hui.iFrame.GengGaiMiMa;
-import com.hui.iFrame.GuanYu;
+import com.hui.iFrame.UserModify;
+import com.hui.iFrame.About;
 import com.hui.iFrame.PaperFrame;
-import com.hui.iFrame.JiaGeTiaoZheng;
-import com.hui.iFrame.JinHuoDan_IFrame;
-import com.hui.iFrame.Jinhuo_Tuihuo_IFrame;
-import com.hui.iFrame.JsrGL;
 import com.hui.iFrame.CustomerFrame;
-import com.hui.iFrame.KuCunPanDian;
 import com.hui.iFrame.ProduceOrderQuery;
 import com.hui.iFrame.CptFrame;
-import com.hui.iFrame.XiaoShouChaXun;
 import com.hui.iFrame.ProduceOrder;
-import com.hui.iFrame.XiaoShouPaiHang;
 
 
 public class MenuBar extends JMenuBar {
@@ -136,11 +129,7 @@ public class MenuBar extends JMenuBar {
 
     private void initialize() {
         this.setSize(600, 25);
-        this.add(getJinhuoMenu());
         add(getXiaoshou_Menu());
-        add(getKucun_Menu());
-        add(getXinxi_chaxunMenu());
-        add(getJiben_ziliaoMenu());
         add(getXitong_weihuMenu());
         add(getChuang_kouMenu());
         add(getBang_zhuMenu());
@@ -311,7 +300,7 @@ public class MenuBar extends JMenuBar {
             guanyu_Item = new JMenuItem("关于");
             guanyu_Item.setIcon(new ImageIcon(getClass().getResource(
                     "/res/icon/guanyu.png")));
-            guanyu_Item.addActionListener(e -> createFrame(guanyu_Item, GuanYu.class));
+            guanyu_Item.addActionListener(e -> createFrame(guanyu_Item, About.class));
         }
         return guanyu_Item;
     }
@@ -392,7 +381,7 @@ public class MenuBar extends JMenuBar {
             mima_xiugaiItem.setIcon(new ImageIcon(getClass().getResource(
                     "/res/icon/mima_xiugai.png")));
             mima_xiugaiItem
-                    .addActionListener(e -> createFrame(mima_xiugaiItem, GengGaiMiMa.class));
+                    .addActionListener(e -> createFrame(mima_xiugaiItem, UserModify.class));
         }
         return mima_xiugaiItem;
     }
@@ -407,31 +396,6 @@ public class MenuBar extends JMenuBar {
                     .addActionListener(e -> createFrame(shuju_beifenItem, BackupAndRestore.class));
         }
         return shuju_beifenItem;
-    }
-
-    public JMenu getJiben_ziliaoMenu() {
-        if (jiben_ziliaoMenu == null) {
-            jiben_ziliaoMenu = new JMenu();
-            jiben_ziliaoMenu.setText("基本资料(B)");
-            jiben_ziliaoMenu.setMnemonic(KeyEvent.VK_B);
-            jiben_ziliaoMenu.add(getShangpin_guanliItem());
-            jiben_ziliaoMenu.add(getKehu_guanliItem());
-            jiben_ziliaoMenu.add(getGys_guanliItem());
-            jiben_ziliaoMenu.addSeparator();
-            jiben_ziliaoMenu.add(getJsr_guanliItem());
-        }
-        return jiben_ziliaoMenu;
-    }
-
-    public JMenuItem getJsr_guanliItem() {
-        if (jsr_guanliItem == null) {
-            jsr_guanliItem = new JMenuItem();
-            jsr_guanliItem.setText("经手人管理");
-            jsr_guanliItem.setIcon(new ImageIcon(getClass().getResource(
-                    "/res/icon/jsr_shezhi.png")));
-            jsr_guanliItem.addActionListener(e -> createFrame(jsr_guanliItem, JsrGL.class));
-        }
-        return jsr_guanliItem;
     }
 
     public JMenuItem getGys_guanliItem() {
@@ -468,31 +432,6 @@ public class MenuBar extends JMenuBar {
         return shangpin_guanliItem;
     }
 
-    public JMenu getXinxi_chaxunMenu() {
-        if (xinxi_chaxunMenu == null) {
-            xinxi_chaxunMenu = new JMenu();
-            xinxi_chaxunMenu.setText("信息查询(C)");
-            xinxi_chaxunMenu.setMnemonic(KeyEvent.VK_C);
-            xinxi_chaxunMenu.add(getXiaoshou_chaxunItem());
-            xinxi_chaxunMenu.add(getShangpin_chaxunItem());
-            xinxi_chaxunMenu.addSeparator();
-            xinxi_chaxunMenu.add(getXiaoshou_paihangItem());
-        }
-        return xinxi_chaxunMenu;
-    }
-
-    public JMenuItem getXiaoshou_paihangItem() {
-        if (xiaoshou_paihangItem == null) {
-            xiaoshou_paihangItem = new JMenuItem();
-            xiaoshou_paihangItem.setText("销售排行");
-            xiaoshou_paihangItem.setIcon(new ImageIcon(getClass().getResource(
-                    "/res/icon/xiaoshou_paihang.png")));
-            xiaoshou_paihangItem
-                    .addActionListener(e -> createFrame(xiaoshou_paihangItem, XiaoShouPaiHang.class));
-        }
-        return xiaoshou_paihangItem;
-    }
-
     public JMenuItem getShangpin_chaxunItem() {
         if (shangpin_chaxunItem == null) {
             shangpin_chaxunItem = new JMenuItem();
@@ -505,50 +444,6 @@ public class MenuBar extends JMenuBar {
         return shangpin_chaxunItem;
     }
 
-    public JMenuItem getXiaoshou_chaxunItem() {
-        if (xiaoshou_chaxunItem == null) {
-            xiaoshou_chaxunItem = new JMenuItem();
-            xiaoshou_chaxunItem.setText("销售查询");
-            xiaoshou_chaxunItem.setIcon(new ImageIcon(getClass().getResource(
-                    "/res/icon/xiaoshou_chaxun.png")));
-            xiaoshou_chaxunItem
-                    .addActionListener(e -> createFrame(xiaoshou_chaxunItem, XiaoShouChaXun.class));
-        }
-        return xiaoshou_chaxunItem;
-    }
-
-    private JMenu getKucun_Menu() {
-        if (kucun_Menu == null) {
-            kucun_Menu = new JMenu("库存(K)");
-            kucun_Menu.setMnemonic(KeyEvent.VK_K);
-            kucun_Menu.add(getKucun_pandianItem());
-            kucun_Menu.add(getJiage_tiaozhengItem());
-        }
-        return kucun_Menu;
-    }
-
-    public JMenuItem getJiage_tiaozhengItem() {
-        if (jiage_tiaozhengItem == null) {
-            jiage_tiaozhengItem = new JMenuItem("价格调整");
-            jiage_tiaozhengItem.addActionListener(e -> {
-                // TODO Auto-generated method stub
-                createFrame(jiage_tiaozhengItem, JiaGeTiaoZheng.class);
-            });
-        }
-        return jiage_tiaozhengItem;
-    }
-
-    public JMenuItem getKucun_pandianItem() {
-        if (kucun_pandianItem == null) {
-            kucun_pandianItem = new JMenuItem("库存盘点");
-            kucun_pandianItem.addActionListener(e -> {
-                // TODO Auto-generated method stub
-                createFrame(kucun_pandianItem, KuCunPanDian.class);
-            });
-        }
-        return kucun_pandianItem;
-    }
-
     private JMenu getXiaoshou_Menu() {
         if (xiaoshou_Menu == null) {
             xiaoshou_Menu = new JMenu("销售(X)");
@@ -559,17 +454,6 @@ public class MenuBar extends JMenuBar {
         return xiaoshou_Menu;
     }
 
-    private JMenuItem getXiaoshou_tuihuoItem() {
-        if (xiaoshou_tuihuoItem == null) {
-            xiaoshou_tuihuoItem = new JMenuItem("销售退货");
-            xiaoshou_danItem.addActionListener(e -> {
-                // TODO Auto-generated method stub
-
-            });
-        }
-        return xiaoshou_tuihuoItem;
-    }
-
     public JMenuItem getXiaoshou_danItem() {
         if (xiaoshou_danItem == null) {
             xiaoshou_danItem = new JMenuItem("生产单");
@@ -577,41 +461,6 @@ public class MenuBar extends JMenuBar {
             xiaoshou_danItem.addActionListener(e -> createFrame(xiaoshou_danItem, ProduceOrder.class));
         }
         return xiaoshou_danItem;
-    }
-
-    private JMenu getJinhuoMenu() {
-        if (jinhuo_Menu == null) {
-            jinhuo_Menu = new JMenu("进货(J)");
-            jinhuo_Menu.setMnemonic(KeyEvent.VK_J);
-            jinhuo_Menu.add(getJinhuoItem());
-        }
-        return jinhuo_Menu;
-    }
-
-    public JMenuItem getJinhuoItem() {
-        if (jinhuoItem == null) {
-            jinhuoItem = new JMenuItem("进货单");
-            jinhuoItem.setIcon(new ImageIcon(getClass().getResource("/res/icon/jinhuodan.png")));
-            jinhuoItem.addActionListener(e -> {
-                // TODO Auto-generated method stub
-
-                createFrame(jinhuoItem, JinHuoDan_IFrame.class);
-            });
-        }
-        return jinhuoItem;
-    }
-
-    private JMenuItem getJinhuo_tuihuoItem() {
-        if (jinhuo_tuihuoItem == null) {
-            jinhuo_tuihuoItem = new JMenuItem("进货退货");
-            jinhuo_tuihuoItem.setIcon(new ImageIcon(getClass().getResource("/res/icon/jinhuo_tuihuo.png")));
-            jinhuo_tuihuoItem.addActionListener(e -> {
-                // TODO Auto-generated method stub
-                createFrame(jinhuo_tuihuoItem, Jinhuo_Tuihuo_IFrame.class);
-
-            });
-        }
-        return jinhuo_tuihuoItem;
     }
 
     /**

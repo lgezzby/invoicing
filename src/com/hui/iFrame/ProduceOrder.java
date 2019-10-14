@@ -3,6 +3,7 @@ package com.hui.iFrame;
 import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,6 +63,9 @@ public class ProduceOrder extends JInternalFrame {
 
 	private final JComboBox cpts = new JComboBox();
 
+	// 菲林编号
+	private final JTextField cptId = new JTextField();
+
 	// 车间
 	private final JTextField farm = new JTextField();
 
@@ -90,6 +94,9 @@ public class ProduceOrder extends JInternalFrame {
 	private final JComboBox printDemand = new JComboBox();
 
 	private final JComboBox materials = new JComboBox();
+
+	// 纸张编号
+	private final JTextField paperId = new JTextField();
 
 	// 纸张名称
 	private final JTextField paperName = new JTextField();
@@ -251,13 +258,14 @@ public class ProduceOrder extends JInternalFrame {
 				return;
 			}
 
-			ResultSet set = Dao.query("select max(id) from tb_sell_main");
+			ResultSet set = Dao.query("select max(id) from produce_order");
 			String id = null;
 			try {
 				if (set != null && set.next()) {
 					String sid = set.getString(1);
-					if (sid == null)
+					if (sid == null) {
 						id = "1001";
+					}
 					else {
 						id = String.valueOf(Integer.parseInt(sid) + 1);
 					}
@@ -265,36 +273,38 @@ public class ProduceOrder extends JInternalFrame {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			ProduceOrderBO spInfo = new ProduceOrderBO();
-			spInfo.setId(id);
-			spInfo.setCustomerId(customerId.getText());
-			spInfo.setCustomerName(customerName.getText());
-			spInfo.setMobile(mobile.getText());
-			spInfo.setPayType(payType.getText());
-			spInfo.setCustomerRemark(customerRemark.getText());
-			spInfo.setFarm(farm.getText());
-			spInfo.setExposureDemand(exposureDemand.getText());
-			spInfo.setCptSpecification(cptSpecification.getText());
-			spInfo.setLocation(location.getText());
-			spInfo.setChromaticNumber(chromaticNumber.getText());
-			spInfo.setExposureDirective(exposureDirective.getText());
-			spInfo.setPrintMethod(printMethod.getText());
-			spInfo.setPrintRemark(printRemark.getText());
+			ProduceOrderBO orderBO = new ProduceOrderBO();
+			orderBO.setId(id);
+			orderBO.setCustomerId(customerId.getText());
+			orderBO.setCustomerName(customerName.getText());
+			orderBO.setMobile(mobile.getText());
+			orderBO.setPayType(payType.getText());
+			orderBO.setCustomerRemark(customerRemark.getText());
+			orderBO.setCptId(cptId.getText());
+			orderBO.setFarm(farm.getText());
+			orderBO.setExposureDemand(exposureDemand.getText());
+			orderBO.setCptSpecification(cptSpecification.getText());
+			orderBO.setLocation(location.getText());
+			orderBO.setChromaticNumber(chromaticNumber.getText());
+			orderBO.setExposureDirective(exposureDirective.getText());
+			orderBO.setPrintMethod(printMethod.getText());
+			orderBO.setPrintRemark(printRemark.getText());
 			Item demandItem = (Item) printDemand.getSelectedItem();
-			spInfo.setPrintDemand(demandItem.getName());
-			spInfo.setPaperName(paperName.getText());
-			spInfo.setPaperAmount(paperAmount.getText());
-			spInfo.setPaperSpecification(paperSpecification.getText());
-			spInfo.setPaperRemark(paperRemark.getText());
-			spInfo.setAmount(amount.getText());
-			spInfo.setRealAmount(realAmount.getText());
-			spInfo.setCustomerDemand(customerDemand.getText());
-			spInfo.setDescription(description.getText());
-			spInfo.setUserMade(userMade.getText());
-			spInfo.setCustomerConfirmed(customerConfirmed.getText());
-			spInfo.setUserConfirmed(userConfirmed.getText());
-			spInfo.setUserEnded(userEnded.getText());
-			Dao.addSell(spInfo);
+			orderBO.setPrintDemand(demandItem.getName());
+			orderBO.setPaperId(paperId.getText());
+			orderBO.setPaperName(paperName.getText());
+			orderBO.setPaperAmount(paperAmount.getText());
+			orderBO.setPaperSpecification(paperSpecification.getText());
+			orderBO.setPaperRemark(paperRemark.getText());
+			orderBO.setAmount(amount.getText());
+			orderBO.setRealAmount(realAmount.getText());
+			orderBO.setCustomerDemand(customerDemand.getText());
+			orderBO.setDescription(description.getText());
+			orderBO.setUserMade(userMade.getText());
+			orderBO.setCustomerConfirmed(customerConfirmed.getText());
+			orderBO.setUserConfirmed(userConfirmed.getText());
+			orderBO.setUserEnded(userEnded.getText());
+			Dao.addProduceOrder(orderBO);
 			JOptionPane.showMessageDialog(ProduceOrder.this,
 					"添加生产单成功", "信息提示", JOptionPane.INFORMATION_MESSAGE);
 			resetBtn.doClick();
@@ -326,6 +336,7 @@ public class ProduceOrder extends JInternalFrame {
 	}
 
 	private void resetPaperInfo() {
+		paperId.setText("");
 		paperName.setText("");
 		paperSpecification.setText("");
 		paperAmount.setText("");
@@ -333,6 +344,7 @@ public class ProduceOrder extends JInternalFrame {
 	}
 
 	private void resetCptInfo() {
+		cptId.setText("");
 		farm.setText("");
 		exposureDemand.setText("");
 		cptSpecification.setText("");
@@ -364,11 +376,12 @@ public class ProduceOrder extends JInternalFrame {
 			return;
 		}
 		selectedItem = (Item) materials.getSelectedItem();
-		PaperBO gysInfo = Dao.getGysInfo(selectedItem);
-		paperName.setText(gysInfo.getPaperName());
-		paperSpecification.setText(gysInfo.getSpecification());
-		paperAmount.setText(gysInfo.getAmount());
-		paperRemark.setText(gysInfo.getRemark());
+		PaperBO paperBO = Dao.getMaterial(selectedItem);
+		paperId.setText(paperBO.getId());
+		paperName.setText(paperBO.getPaperName());
+		paperSpecification.setText(paperBO.getSpecification());
+		paperAmount.setText(paperBO.getAmount());
+		paperRemark.setText(paperBO.getRemark());
 	}
 
 	private void doCtpSelectAction() {
@@ -377,16 +390,17 @@ public class ProduceOrder extends JInternalFrame {
 			return;
 		}
 		selectedItem = (Item) cpts.getSelectedItem();
-		CptBO spInfo = Dao.getSpInfo(selectedItem);
-		if (!spInfo.getId().isEmpty()) {
-			farm.setText(spInfo.getFarm());
-			exposureDemand.setText(spInfo.getDemand());
-			cptSpecification.setText(spInfo.getSpecification());
-			location.setText(spInfo.getLocation());
-			exposureDirective.setText(spInfo.getDirective());
-			chromaticNumber.setText(spInfo.getChromaticNumber());
-			printMethod.setText(spInfo.getMethod());
-			printRemark.setText(spInfo.getRemark());
+		CptBO cptBO = Dao.getCpt(selectedItem);
+		if (!cptBO.getId().isEmpty()) {
+			cptId.setText(cptBO.getId());
+			farm.setText(cptBO.getFarm());
+			exposureDemand.setText(cptBO.getDemand());
+			cptSpecification.setText(cptBO.getSpecification());
+			location.setText(cptBO.getLocation());
+			exposureDirective.setText(cptBO.getDirective());
+			chromaticNumber.setText(cptBO.getChromaticNumber());
+			printMethod.setText(cptBO.getMethod());
+			printRemark.setText(cptBO.getRemark());
 		}
 	}
 
@@ -396,12 +410,12 @@ public class ProduceOrder extends JInternalFrame {
 			return;
 		}
 		selectedItem = (Item) customers.getSelectedItem();
-		CustomerBO khInfo = Dao.getKhInfo(selectedItem);
-		customerId.setText(khInfo.getId());
-		customerName.setText(khInfo.getName());
-		mobile.setText(khInfo.getMobile());
-		payType.setText(khInfo.getPayType());
-		customerRemark.setText(khInfo.getRemark());
+		CustomerBO customerBO = Dao.getCustomer(selectedItem);
+		customerId.setText(customerBO.getId());
+		customerName.setText(customerBO.getName());
+		mobile.setText(customerBO.getMobile());
+		payType.setText(customerBO.getPayType());
+		customerRemark.setText(customerBO.getRemark());
 
 		// 只展示客户有关的信息列表
 		initCpts();
@@ -436,8 +450,8 @@ public class ProduceOrder extends JInternalFrame {
 
 	private void initMaterials() {
 		String selectedCustomerId = customerId.getText();
-		List<Item> items = new ArrayList<Item>();
-		List materialList = Dao.getGysInfos(selectedCustomerId);
+		List<Item> items = new ArrayList<>();
+		List materialList = Dao.getMaterials(selectedCustomerId);
 		materials.removeAllItems();
 		for (Iterator iter = materialList.iterator(); iter.hasNext();) {
 			java.util.List element = (List) iter.next();
@@ -447,6 +461,10 @@ public class ProduceOrder extends JInternalFrame {
 			if (items.contains(item)) {
 				continue;
 			}
+			List existMaterial = Dao.getMaterialById(item.getId());
+			if (null != existMaterial && existMaterial.size() > 0) {
+				item.setName(item.getName() + "(已选)");
+			}
 			items.add(item);
 			materials.addItem(item);
 		}
@@ -455,7 +473,7 @@ public class ProduceOrder extends JInternalFrame {
 	private void initCpts() {
 		String selectedCustomerId = customerId.getText();
 		List<Item> items = new ArrayList<>();
-		List cptList = Dao.getSpInfos(selectedCustomerId);
+		List cptList = Dao.getCpts(selectedCustomerId);
 		cpts.removeAllItems();
 		for (Iterator iter = cptList.iterator(); iter.hasNext();) {
 			List element = (List) iter.next();
@@ -465,13 +483,17 @@ public class ProduceOrder extends JInternalFrame {
 			if (items.contains(item)) {
 				continue;
 			}
+			List existCpts = Dao.getCptById(item.getId());
+			if (null != existCpts && existCpts.size() > 0) {
+				item.setName(item.getName() + "(已选)");
+			}
 			items.add(item);
 			cpts.addItem(item);
 		}
 	}
 
 	private void initCustomers() {
-		List customerList = Dao.getKhInfos();
+		List customerList = Dao.getCustomers();
 		List<Item> items = new ArrayList<>();
 		customers.removeAllItems();
 		for (Iterator iter = customerList.iterator(); iter.hasNext();) {

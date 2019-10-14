@@ -132,10 +132,10 @@ public class CptSavePanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) customers.getSelectedItem();
-		CustomerBO khInfo = Dao.getKhInfo(selectedItem);
-		customerId.setText(khInfo.getId());
-		name.setText(khInfo.getName());
-		mobile.setText(khInfo.getMobile());
+		CustomerBO customerBO = Dao.getCustomer(selectedItem);
+		customerId.setText(customerBO.getId());
+		name.setText(customerBO.getName());
+		mobile.setText(customerBO.getMobile());
 	}
 
 	private void initialBtn() {
@@ -146,7 +146,7 @@ public class CptSavePanel extends JPanel {
 				return;
 			}
 
-			ResultSet set = Dao.query("select max(id) from tb_spinfo");
+			ResultSet set = Dao.query("select max(id) from cpt");
 			String id = null;
 			try {
 				if (set != null && set.next()) {
@@ -161,25 +161,25 @@ public class CptSavePanel extends JPanel {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			CptBO spInfo = new CptBO();
-			spInfo.setId(id);
-			spInfo.setCustomerId(customerId.getText());
-			spInfo.setName(name.getText());
-			spInfo.setMobile(mobile.getText());
+			CptBO cptBO = new CptBO();
+			cptBO.setId(id);
+			cptBO.setCustomerId(customerId.getText());
+			cptBO.setName(name.getText());
+			cptBO.setMobile(mobile.getText());
 			Item farmItem = (Item) farm.getSelectedItem();
-			spInfo.setFarm(farmItem.getName());
+			cptBO.setFarm(farmItem.getName());
 			Item demandItem = (Item) demand.getSelectedItem();
-			spInfo.setDemand(demandItem.getName());
+			cptBO.setDemand(demandItem.getName());
 			Item locationItem = (Item) location.getSelectedItem();
-			spInfo.setLocation(locationItem.getName());
-			spInfo.setSpecification(specification.getText());
-			spInfo.setDirective(directive.getText());
-			spInfo.setChromaticNumber(chromaticNumber.getText());
+			cptBO.setLocation(locationItem.getName());
+			cptBO.setSpecification(specification.getText());
+			cptBO.setDirective(directive.getText());
+			cptBO.setChromaticNumber(chromaticNumber.getText());
 			Item methodItem = (Item) method.getSelectedItem();
-			spInfo.setMethod(methodItem.getName());
-			spInfo.setRemark(remark.getText());
-			spInfo.setUserSigned(userSigned.getText());
-			Dao.addSp(spInfo);
+			cptBO.setMethod(methodItem.getName());
+			cptBO.setRemark(remark.getText());
+			cptBO.setUserSigned(userSigned.getText());
+			Dao.addCpt(cptBO);
 			JOptionPane.showMessageDialog(CptSavePanel.this,
 					"添加CPT/菲林入库成功", "信息提示", JOptionPane.INFORMATION_MESSAGE);
 			resetBtn.doClick();
@@ -236,7 +236,7 @@ public class CptSavePanel extends JPanel {
 
 	// 初始化客户
 	public void initCustomers() {
-		List customerList = Dao.getKhInfos();
+		List customerList = Dao.getCustomers();
 		List<Item> items = new ArrayList<Item>();
 		customers.removeAllItems();
 		for (Iterator iter = customerList.iterator(); iter.hasNext();) {

@@ -8,7 +8,7 @@ import javax.swing.*;
 import com.hui.Dao.Dao;
 
 
-public class GengGaiMiMa extends JInternalFrame {
+public class UserModify extends JInternalFrame {
 	private JLabel name;
 
 	private JPasswordField oldPass;
@@ -17,7 +17,7 @@ public class GengGaiMiMa extends JInternalFrame {
 
 	private JPasswordField newPass1;
 
-	public GengGaiMiMa() {
+	public UserModify() {
 		super();
 		setIconifiable(true);
 		setTitle("更改密码");

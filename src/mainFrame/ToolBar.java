@@ -27,9 +27,6 @@ public class ToolBar extends JToolBar {
 		add(createToobarButton(menuBar.getXiaoshou_danItem()));
 		add(createToobarButton(menuBar.getShangpin_chaxunItem()));
 		add(createToobarButton(menuBar.getExitItem()));
-//		add(createToobarButton(menuBar.getJinhuoItem()));
-//		add(createToobarButton(menuBar.getKucun_pandianItem()));
-//		add(createToobarButton(menuBar.getJiage_tiaozhengItem()));
 	}
 	
 	private JButton createToobarButton(JMenuItem menuItem){

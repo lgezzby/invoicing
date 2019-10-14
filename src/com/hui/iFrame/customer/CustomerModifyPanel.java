@@ -79,7 +79,7 @@ public class CustomerModifyPanel extends JPanel {
 			int confirm = JOptionPane.showConfirmDialog(
 					CustomerModifyPanel.this, "确认删除？");
 			if (confirm == JOptionPane.YES_OPTION) {
-				int rs = Dao.delete("delete from tb_khinfo where id='"
+				int rs = Dao.delete("delete from customer where id='"
 						+ item.getId() + "'");
 				if (rs > 0) {
 					JOptionPane.showMessageDialog(CustomerModifyPanel.this,
@@ -91,16 +91,16 @@ public class CustomerModifyPanel extends JPanel {
 
 		modifyBtn.addActionListener(e -> {
 			Item item = (Item) customers.getSelectedItem();
-			CustomerBO khinfo = new CustomerBO();
-			khinfo.setId(item.getId());
-			khinfo.setName(name.getText().trim());
-			khinfo.setMobile(mobile.getText().trim());
-			khinfo.setAddress(address.getText().trim());
+			CustomerBO customerBO = new CustomerBO();
+			customerBO.setId(item.getId());
+			customerBO.setName(name.getText().trim());
+			customerBO.setMobile(mobile.getText().trim());
+			customerBO.setAddress(address.getText().trim());
 			Item payItem = (Item) payType.getSelectedItem();
-			khinfo.setPayType(payItem.getName());
-			khinfo.setRemark(remark.getText().trim());
-			khinfo.setBalance(balance.getText().trim());
-			if (Dao.updateKeHu(khinfo) == 1) {
+			customerBO.setPayType(payItem.getName());
+			customerBO.setRemark(remark.getText().trim());
+			customerBO.setBalance(balance.getText().trim());
+			if (Dao.updateCustomer(customerBO) == 1) {
 				JOptionPane.showMessageDialog(CustomerModifyPanel.this, "更新成功！");
 			}
 			else {
@@ -116,10 +116,10 @@ public class CustomerModifyPanel extends JPanel {
     }
 
 	public void initComboBox() {
-		List khInfo = Dao.getKhInfos();
+		List customerBOS = Dao.getCustomers();
 		List<Item> items = new ArrayList<>();
 		customers.removeAllItems();
-		for (Iterator iter = khInfo.iterator(); iter.hasNext();) {
+		for (Iterator iter = customerBOS.iterator(); iter.hasNext();) {
 			List element = (List) iter.next();
 			Item item = new Item();
 			item.setId(element.get(0).toString().trim());
@@ -156,11 +156,11 @@ public class CustomerModifyPanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) customers.getSelectedItem();
-		CustomerBO khInfo = Dao.getKhInfo(selectedItem);
-		name.setText(khInfo.getName());
-		mobile.setText(khInfo.getMobile());
-		address.setText(khInfo.getAddress());
-        String type = khInfo.getPayType();
+		CustomerBO customerBO = Dao.getCustomer(selectedItem);
+		name.setText(customerBO.getName());
+		mobile.setText(customerBO.getMobile());
+		address.setText(customerBO.getAddress());
+        String type = customerBO.getPayType();
         if ("现结".equals(type)) {
             payType.setSelectedIndex(0);
         } else if ("月结".equals(type)) {
@@ -168,8 +168,8 @@ public class CustomerModifyPanel extends JPanel {
         } else  {
             payType.setSelectedIndex(2);
         }
-		remark.setText(khInfo.getRemark());
-		balance.setText(khInfo.getBalance());
+		remark.setText(customerBO.getRemark());
+		balance.setText(customerBO.getBalance());
 	}
 	public class InputKeyListener extends KeyAdapter {
 		@Override

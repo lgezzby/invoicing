@@ -131,10 +131,10 @@ public class CptModifyPanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) customers.getSelectedItem();
-		CustomerBO khInfo = Dao.getKhInfo(selectedItem);
-		customerId.setText(khInfo.getId());
-		name.setText(khInfo.getName());
-		mobile.setText(khInfo.getMobile());
+		CustomerBO customerBO = Dao.getCustomer(selectedItem);
+		customerId.setText(customerBO.getId());
+		name.setText(customerBO.getName());
+		mobile.setText(customerBO.getMobile());
 	}
 
 	private void initialBtn() {
@@ -152,7 +152,7 @@ public class CptModifyPanel extends JPanel {
 			int confirm = JOptionPane.showConfirmDialog(
 					CptModifyPanel.this, "确认删除");
 			if (confirm == JOptionPane.YES_OPTION) {
-				int rs = Dao.delete("delete from tb_spinfo where id='" + item.getId() + "'");
+				int rs = Dao.delete("delete from cpt where id='" + item.getId() + "'");
 				if (rs > 0) {
 					JOptionPane.showMessageDialog(CptModifyPanel.this,
 							"cpt/菲林" + item.getName() + "信息删除成功");
@@ -163,25 +163,25 @@ public class CptModifyPanel extends JPanel {
 		//修改按钮
 		modifyBtn.addActionListener(e -> {
 			Item item = (Item) cpts.getSelectedItem();
-			CptBO spInfo = new CptBO();
-			spInfo.setId(item.getId());
-			spInfo.setCustomerId(customerId.getText());
-			spInfo.setName(name.getText());
-			spInfo.setMobile(mobile.getText());
+			CptBO cptBO = new CptBO();
+			cptBO.setId(item.getId());
+			cptBO.setCustomerId(customerId.getText());
+			cptBO.setName(name.getText());
+			cptBO.setMobile(mobile.getText());
 			Item farmItem = (Item) method.getSelectedItem();
-			spInfo.setFarm(farmItem.getName());
+			cptBO.setFarm(farmItem.getName());
 			Item demandItem = (Item) method.getSelectedItem();
-			spInfo.setDemand(demandItem.getName());
-			spInfo.setSpecification(specification.getText());
+			cptBO.setDemand(demandItem.getName());
+			cptBO.setSpecification(specification.getText());
 			Item locationItem = (Item) method.getSelectedItem();
-			spInfo.setLocation(locationItem.getName());
-			spInfo.setDirective(directive.getText());
-			spInfo.setChromaticNumber(chromaticNumber.getText());
+			cptBO.setLocation(locationItem.getName());
+			cptBO.setDirective(directive.getText());
+			cptBO.setChromaticNumber(chromaticNumber.getText());
 			Item methodItem = (Item) method.getSelectedItem();
-			spInfo.setMethod(methodItem.getName());
-			spInfo.setRemark(remark.getText());
-			spInfo.setUserSigned(userSigned.getText());
-			if (Dao.updateSp(spInfo) == 1) {
+			cptBO.setMethod(methodItem.getName());
+			cptBO.setRemark(remark.getText());
+			cptBO.setUserSigned(userSigned.getText());
+			if (Dao.updateCpt(cptBO) == 1) {
 				initComboBox();
 				JOptionPane.showMessageDialog(CptModifyPanel.this,
 						"更新成功");
@@ -221,10 +221,10 @@ public class CptModifyPanel extends JPanel {
 
 	//初始化入库信息
 	public void initComboBox() {
-		List khInfo = Dao.getSpInfos(null);
+		List customers = Dao.getCpts(null);
 		List<Item> items = new ArrayList<>();
 		cpts.removeAllItems();
-		for (Iterator iter = khInfo.iterator(); iter.hasNext();) {
+		for (Iterator iter = customers.iterator(); iter.hasNext();) {
 			List element = (List) iter.next();
 			Item item = new Item();
 			item.setId(element.get(0).toString().trim());
@@ -239,7 +239,7 @@ public class CptModifyPanel extends JPanel {
 	}
 
 	public void initCustomers() {
-		List customerList = Dao.getKhInfos();
+		List customerList = Dao.getCustomers();
 		List<Item> items = new ArrayList<>();
 		customers.removeAllItems();
 		for (Iterator iter = customerList.iterator(); iter.hasNext();) {
@@ -279,14 +279,14 @@ public class CptModifyPanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) cpts.getSelectedItem();
-		CptBO spInfo = Dao.getSpInfo(selectedItem);
-		if (!spInfo.getId().isEmpty()) {
-			cptId.setText(spInfo.getId());
-			gmtCreated.setText(spInfo.getGmtCreated());
-			customerId.setText(spInfo.getCustomerId());
-			name.setText(spInfo.getName());
-			mobile.setText(spInfo.getMobile());
-			String farmType = spInfo.getLocation();
+		CptBO cptBO = Dao.getCpt(selectedItem);
+		if (!cptBO.getId().isEmpty()) {
+			cptId.setText(cptBO.getId());
+			gmtCreated.setText(cptBO.getGmtCreated());
+			customerId.setText(cptBO.getCustomerId());
+			name.setText(cptBO.getName());
+			mobile.setText(cptBO.getMobile());
+			String farmType = cptBO.getLocation();
 			if ("八-1".equals(farmType)) {
 				farm.setSelectedIndex(0);
 			} else if ("八-2".equals(farmType)) {
@@ -294,7 +294,7 @@ public class CptModifyPanel extends JPanel {
 			} else {
 				farm.setSelectedIndex(2);
 			}
-			String locationType = spInfo.getLocation();
+			String locationType = cptBO.getLocation();
 			if ("向下".equals(locationType)) {
 				location.setSelectedIndex(0);
 			} else if ("向上".equals(locationType)) {
@@ -304,16 +304,16 @@ public class CptModifyPanel extends JPanel {
 			} else  {
 				location.setSelectedIndex(3);
 			}
-			String demandType = spInfo.getLocation();
+			String demandType = cptBO.getLocation();
 			if ("CTP".equals(demandType)) {
 				demand.setSelectedIndex(0);
 			} else {
 				demand.setSelectedIndex(1);
 			}
-			specification.setText(spInfo.getSpecification());
-			directive.setText(spInfo.getDirective());
-			chromaticNumber.setText(spInfo.getChromaticNumber());
-			String methodType = spInfo.getMethod();
+			specification.setText(cptBO.getSpecification());
+			directive.setText(cptBO.getDirective());
+			chromaticNumber.setText(cptBO.getChromaticNumber());
+			String methodType = cptBO.getMethod();
 			if ("左右翻".equals(methodType)) {
 				method.setSelectedIndex(0);
 			} else if ("天地翻".equals(methodType)) {
@@ -323,8 +323,8 @@ public class CptModifyPanel extends JPanel {
 			} else  {
 				method.setSelectedIndex(3);
 			}
-			remark.setText(spInfo.getRemark());
-			userSigned.setText(spInfo.getUserSigned());
+			remark.setText(cptBO.getRemark());
+			userSigned.setText(cptBO.getUserSigned());
 		}
 	}
 }

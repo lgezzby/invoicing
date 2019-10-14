@@ -12,6 +12,8 @@ public class ProduceOrderBO implements java.io.Serializable {
 
 	private String customerRemark;
 
+	private String cptId;
+
 	private String farm;
 
 	private String exposureDemand;
@@ -29,6 +31,8 @@ public class ProduceOrderBO implements java.io.Serializable {
 	private String printRemark;
 
 	private String printDemand;
+
+	private String paperId;
 
 	private String paperName;
 
@@ -59,6 +63,22 @@ public class ProduceOrderBO implements java.io.Serializable {
 	private String userEnded;
 
 	public ProduceOrderBO() {
+	}
+
+	public String getCptId() {
+		return cptId;
+	}
+
+	public void setCptId(String cptId) {
+		this.cptId = cptId;
+	}
+
+	public String getPaperId() {
+		return paperId;
+	}
+
+	public void setPaperId(String paperId) {
+		this.paperId = paperId;
 	}
 
 	public String getCustomerId() {

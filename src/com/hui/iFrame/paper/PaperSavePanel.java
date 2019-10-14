@@ -86,7 +86,7 @@ public class PaperSavePanel extends JPanel {
 				return;
 			}
 			ResultSet haveUser = Dao
-					.query("select * from tb_gysinfo where name='"
+					.query("select * from material where name='"
 							+ paperName.getText().trim() + "'");
 			try {
 				if (haveUser.next()){
@@ -99,7 +99,7 @@ public class PaperSavePanel extends JPanel {
 			} catch (Exception er) {
 				er.printStackTrace();
 			}
-			ResultSet set = Dao.query("select max(id) from tb_gysinfo");
+			ResultSet set = Dao.query("select max(id) from material");
 			String id = null;
 			try {
 				if (set != null && set.next()) {
@@ -114,17 +114,17 @@ public class PaperSavePanel extends JPanel {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			PaperBO gysInfo = new PaperBO();
-			gysInfo.setId(id);
-			gysInfo.setCustomerId(customerId.getText().trim());
-			gysInfo.setName(name.getText().trim());
-			gysInfo.setMobile(mobile.getText().trim());
-			gysInfo.setPaperName(paperName.getText().trim());
-			gysInfo.setSpecification(specification.getText());
-			gysInfo.setAmount(amount.getText());
-			gysInfo.setRemark(remark.getText());
-			gysInfo.setUserSigned(userSigned.getText());
-			Dao.addGys(gysInfo);
+			PaperBO paperBO = new PaperBO();
+			paperBO.setId(id);
+			paperBO.setCustomerId(customerId.getText().trim());
+			paperBO.setName(name.getText().trim());
+			paperBO.setMobile(mobile.getText().trim());
+			paperBO.setPaperName(paperName.getText().trim());
+			paperBO.setSpecification(specification.getText());
+			paperBO.setAmount(amount.getText());
+			paperBO.setRemark(remark.getText());
+			paperBO.setUserSigned(userSigned.getText());
+			Dao.addMaterial(paperBO);
 			JOptionPane.showMessageDialog(PaperSavePanel.this, "添加成功",
 					"信息提示", JOptionPane.INFORMATION_MESSAGE);
 			resetBtn.doClick();
@@ -151,10 +151,10 @@ public class PaperSavePanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) customers.getSelectedItem();
-		CustomerBO khInfo = Dao.getKhInfo(selectedItem);
-		customerId.setText(khInfo.getId());
-		name.setText(khInfo.getName());
-		mobile.setText(khInfo.getMobile());
+		CustomerBO customerBO = Dao.getCustomer(selectedItem);
+		customerId.setText(customerBO.getId());
+		name.setText(customerBO.getName());
+		mobile.setText(customerBO.getMobile());
 	}
 
 	private void setupComponent(JComponent component, int gridx, int gridy,
@@ -176,7 +176,7 @@ public class PaperSavePanel extends JPanel {
 	}
 
 	public void initCustomers() {
-		java.util.List customerList = Dao.getKhInfos();
+		java.util.List customerList = Dao.getCustomers();
 		java.util.List<Item> items = new ArrayList<>();
 		customers.removeAllItems();
 		for (Iterator iter = customerList.iterator(); iter.hasNext();) {

@@ -101,7 +101,7 @@ public class CustomerAddPanel extends JPanel {
 				return;
 			}
 			ResultSet haveUser = Dao
-					.query("select * from tb_khinfo where name='"
+					.query("select * from customer where name='"
 							+ name.getText().trim() + "'");
 			try {
 				if (haveUser.next()){
@@ -114,7 +114,7 @@ public class CustomerAddPanel extends JPanel {
 			} catch (Exception er) {
 				er.printStackTrace();
 			}
-			ResultSet set = Dao.query("select max(id) from tb_khinfo");
+			ResultSet set = Dao.query("select max(id) from customer");
 			String id = null;
 			try {
 				if (set != null && set.next()) {
@@ -129,16 +129,16 @@ public class CustomerAddPanel extends JPanel {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			CustomerBO khinfo = new CustomerBO();
-			khinfo.setId(id);
-			khinfo.setName(name.getText().trim());
-			khinfo.setMobile(mobile.getText().trim());
-			khinfo.setAddress(address.getText().trim());
+			CustomerBO customerBO = new CustomerBO();
+			customerBO.setId(id);
+			customerBO.setName(name.getText().trim());
+			customerBO.setMobile(mobile.getText().trim());
+			customerBO.setAddress(address.getText().trim());
 			Item selectedItem = (Item) payType.getSelectedItem();
-			khinfo.setPayType(selectedItem.getName());
-			khinfo.setRemark(remark.getText().trim());
-			khinfo.setBalance(balance.getText().trim());
-			Dao.addKeHu(khinfo);
+			customerBO.setPayType(selectedItem.getName());
+			customerBO.setRemark(remark.getText().trim());
+			customerBO.setBalance(balance.getText().trim());
+			Dao.addCustomer(customerBO);
 			JOptionPane.showMessageDialog(CustomerAddPanel.this, "添加成功",
 					"信息提示", JOptionPane.INFORMATION_MESSAGE);
 			resetBtn.doClick();

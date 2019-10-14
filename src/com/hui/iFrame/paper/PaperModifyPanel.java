@@ -109,7 +109,7 @@ public class PaperModifyPanel extends JPanel {
 			int confirm = JOptionPane.showConfirmDialog(
 					PaperModifyPanel.this, "确认修改？");
 			if (confirm == JOptionPane.YES_OPTION) {
-				int rs = Dao.delete("delete from tb_gysInfo where id='"
+				int rs = Dao.delete("delete from tb_material where id='"
 						+ item.getId() + "'");
 				if (rs > 0) {
 					JOptionPane.showMessageDialog(PaperModifyPanel.this,
@@ -124,17 +124,17 @@ public class PaperModifyPanel extends JPanel {
 
 		modifyBtn.addActionListener(e -> {
 			Item item = (Item) materials.getSelectedItem();
-			PaperBO gysInfo = new PaperBO();
-			gysInfo.setId(item.getId());
-			gysInfo.setCustomerId(customerId.getText());
-			gysInfo.setName(name.getText());
-			gysInfo.setMobile(mobile.getText());
-			gysInfo.setPaperName(paperName.getText());
-			gysInfo.setSpecification(specification.getText());
-			gysInfo.setAmount(amount.getText());
-			gysInfo.setRemark(remark.getText());
-			gysInfo.setUserSigned(userSigned.getText());
-			if (Dao.updateGys(gysInfo) == 1) {
+			PaperBO paperBO = new PaperBO();
+			paperBO.setId(item.getId());
+			paperBO.setCustomerId(customerId.getText());
+			paperBO.setName(name.getText());
+			paperBO.setMobile(mobile.getText());
+			paperBO.setPaperName(paperName.getText());
+			paperBO.setSpecification(specification.getText());
+			paperBO.setAmount(amount.getText());
+			paperBO.setRemark(remark.getText());
+			paperBO.setUserSigned(userSigned.getText());
+			if (Dao.updateMaterial(paperBO) == 1) {
 				JOptionPane.showMessageDialog(PaperModifyPanel.this, "更新成功");
 			}
 			else {
@@ -152,17 +152,17 @@ public class PaperModifyPanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) customers.getSelectedItem();
-		CustomerBO khInfo = Dao.getKhInfo(selectedItem);
-		customerId.setText(khInfo.getId());
-		name.setText(khInfo.getName());
-		mobile.setText(khInfo.getMobile());
+		CustomerBO customerBO = Dao.getCustomer(selectedItem);
+		customerId.setText(customerBO.getId());
+		name.setText(customerBO.getName());
+		mobile.setText(customerBO.getMobile());
 	}
 
 	public void initComboBox() {
-		List gysInfo = Dao.getGysInfos(null);
+		List paperBOS = Dao.getMaterials(null);
 		List<Item> items = new ArrayList<>();
 		materials.removeAllItems();
-		for (Iterator iter = gysInfo.iterator(); iter.hasNext();) {
+		for (Iterator iter = paperBOS.iterator(); iter.hasNext();) {
 			List element = (List) iter.next();
 			Item item = new Item();
 			item.setId(element.get(0).toString().trim());
@@ -199,21 +199,21 @@ public class PaperModifyPanel extends JPanel {
 			return;
 		}
 		selectedItem = (Item) materials.getSelectedItem();
-		PaperBO gysInfo = Dao.getGysInfo(selectedItem);
-		materialId.setText(gysInfo.getId());
-		gmtCreated.setText(gysInfo.getGmtCreated());
-		customerId.setText(gysInfo.getCustomerId());
-		name.setText(gysInfo.getName());
-		mobile.setText(gysInfo.getMobile());
-		paperName.setText(gysInfo.getPaperName());
-		amount.setText(gysInfo.getAmount());
-		specification.setText(gysInfo.getSpecification());
-		remark.setText(gysInfo.getRemark());
-		userSigned.setText(gysInfo.getUserSigned());
+		PaperBO paperBO = Dao.getMaterial(selectedItem);
+		materialId.setText(paperBO.getId());
+		gmtCreated.setText(paperBO.getGmtCreated());
+		customerId.setText(paperBO.getCustomerId());
+		name.setText(paperBO.getName());
+		mobile.setText(paperBO.getMobile());
+		paperName.setText(paperBO.getPaperName());
+		amount.setText(paperBO.getAmount());
+		specification.setText(paperBO.getSpecification());
+		remark.setText(paperBO.getRemark());
+		userSigned.setText(paperBO.getUserSigned());
 	}
 
 	public void initCustomers() {
-		List customerList = Dao.getKhInfos();
+		List customerList = Dao.getCustomers();
 		List<Item> items = new ArrayList<>();
 		customers.removeAllItems();
 		for (Iterator iter = customerList.iterator(); iter.hasNext();) {
