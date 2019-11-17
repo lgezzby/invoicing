@@ -9,6 +9,7 @@ import com.hui.Dao.Dao;
 import com.hui.javaBean.Item;
 import com.hui.javaBean.CustomerBO;
 import com.hui.javaBean.CptBO;
+import com.hui.util.DateUtils;
 import mainFrame.MainFrame;
 
 public class CptModifyPanel extends JPanel {
@@ -282,7 +283,7 @@ public class CptModifyPanel extends JPanel {
 		CptBO cptBO = Dao.getCpt(selectedItem);
 		if (!cptBO.getId().isEmpty()) {
 			cptId.setText(cptBO.getId());
-			gmtCreated.setText(cptBO.getGmtCreated());
+			gmtCreated.setText(DateUtils.transfromSdfDate(cptBO.getGmtCreated()));
 			customerId.setText(cptBO.getCustomerId());
 			name.setText(cptBO.getName());
 			mobile.setText(cptBO.getMobile());

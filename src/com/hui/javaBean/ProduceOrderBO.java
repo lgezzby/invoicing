@@ -1,5 +1,7 @@
 package com.hui.javaBean;
 
+import java.util.Date;
+
 public class ProduceOrderBO implements java.io.Serializable {
 
 	private String customerId;
@@ -50,7 +52,7 @@ public class ProduceOrderBO implements java.io.Serializable {
 
 	private String description;
 
-	private String gmtCreated;
+	private Date gmtCreated;
 
 	private String id;
 
@@ -225,11 +227,11 @@ public class ProduceOrderBO implements java.io.Serializable {
 		this.paperRemark = paperRemark;
 	}
 
-	public String getGmtCreated() {
+	public Date getGmtCreated() {
 		return gmtCreated;
 	}
 
-	public void setGmtCreated(String gmtCreated) {
+	public void setGmtCreated(Date gmtCreated) {
 		this.gmtCreated = gmtCreated;
 	}
 

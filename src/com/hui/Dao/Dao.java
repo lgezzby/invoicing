@@ -2,6 +2,7 @@ package com.hui.Dao;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.hui.javaBean.CptBO;
@@ -92,7 +93,7 @@ public class Dao {
 				paperBO.setAmount(set.getString("amount"));
 				paperBO.setRemark(set.getString("remark"));
 				paperBO.setUserSigned(set.getString("user_signed"));
-				paperBO.setGmtCreated(set.getString("gmt_created"));
+				paperBO.setGmtCreated(set.getDate("gmt_created"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -131,17 +132,17 @@ public class Dao {
 		try {
 			if (rs.next()) {
 				cptBO.setId(rs.getString("id").trim());
-				cptBO.setGmtCreated(rs.getString("gmt_created").trim());
-				cptBO.setCustomerId(rs.getString("customer_id").trim());
-				cptBO.setName(rs.getString("name").trim());
-				cptBO.setMobile(rs.getString("mobile").trim());
+				cptBO.setGmtCreated(rs.getDate("gmt_created"));
+				cptBO.setCustomerId(rs.getString("customer_id"));
+				cptBO.setName(rs.getString("name"));
+				cptBO.setMobile(rs.getString("mobile"));
 				cptBO.setFarm(rs.getString("farm"));
 				cptBO.setDemand(rs.getString("demand"));
 				cptBO.setSpecification(rs.getString("specification"));
 				cptBO.setLocation(rs.getString("location"));
 				cptBO.setDirective(rs.getString("directive"));
 				cptBO.setChromaticNumber(rs.getString("chromatic_number"));
-				cptBO.setMethod(rs.getString("method").trim());
+				cptBO.setMethod(rs.getString("method"));
 				cptBO.setRemark(rs.getString("remark"));
 				cptBO.setUserSigned(rs.getString("user_signed"));
 			}
@@ -411,7 +412,7 @@ public class Dao {
 				orderBO.setCustomerConfirmed(rs.getString("customer_confirmed"));
 				orderBO.setUserConfirmed(rs.getString("user_confirmed"));
 				orderBO.setUserEnded(rs.getString("user_ended"));
-				orderBO.setGmtCreated(rs.getString("gmt_created"));
+				orderBO.setGmtCreated(rs.getDate("gmt_created"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

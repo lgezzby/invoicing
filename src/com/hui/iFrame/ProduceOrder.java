@@ -15,6 +15,7 @@ import com.hui.javaBean.PaperBO;
 import com.hui.javaBean.CustomerBO;
 import com.hui.javaBean.ProduceOrderBO;
 import com.hui.javaBean.CptBO;
+import com.hui.util.DateUtils;
 import mainFrame.MainFrame;
 
 
@@ -479,7 +480,7 @@ public class ProduceOrder extends JInternalFrame {
 			List element = (List) iter.next();
 			Item item = new Item();
 			item.setId(element.get(0).toString().trim());
-			item.setName(element.get(0).toString().trim() + ":" + element.get(13).toString().trim());
+			item.setName(element.get(0).toString().trim() + ":" + new String(element.get(13).toString()).split("\\.")[0]);
 			if (items.contains(item)) {
 				continue;
 			}

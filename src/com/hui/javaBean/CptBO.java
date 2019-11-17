@@ -1,7 +1,10 @@
 package com.hui.javaBean;
+
+import java.util.Date;
+
 public class CptBO implements java.io.Serializable {
 	private String id;
-	private String gmtCreated;
+	private Date gmtCreated;
 	private String customerId;
 	private String name;
 	private String mobile;
@@ -26,11 +29,11 @@ public class CptBO implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public String getGmtCreated() {
+	public Date getGmtCreated() {
 		return gmtCreated;
 	}
 
-	public void setGmtCreated(String gmtCreated) {
+	public void setGmtCreated(Date gmtCreated) {
 		this.gmtCreated = gmtCreated;
 	}
 

@@ -11,6 +11,7 @@ import com.hui.javaBean.Item;
 import com.hui.javaBean.PaperBO;
 
 import com.hui.javaBean.CustomerBO;
+import com.hui.util.DateUtils;
 
 
 public class PaperModifyPanel extends JPanel {
@@ -201,7 +202,7 @@ public class PaperModifyPanel extends JPanel {
 		selectedItem = (Item) materials.getSelectedItem();
 		PaperBO paperBO = Dao.getMaterial(selectedItem);
 		materialId.setText(paperBO.getId());
-		gmtCreated.setText(paperBO.getGmtCreated());
+		gmtCreated.setText(DateUtils.transfromSdfDate(paperBO.getGmtCreated()));
 		customerId.setText(paperBO.getCustomerId());
 		name.setText(paperBO.getName());
 		mobile.setText(paperBO.getMobile());

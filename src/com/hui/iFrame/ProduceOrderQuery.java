@@ -9,6 +9,7 @@ import javax.swing.*;
 import com.hui.Dao.Dao;
 import com.hui.javaBean.Item;
 import com.hui.javaBean.ProduceOrderBO;
+import com.hui.util.DateUtils;
 
 public class ProduceOrderQuery extends JInternalFrame {
 
@@ -285,7 +286,7 @@ public class ProduceOrderQuery extends JInternalFrame {
 		customerConfirmed.setText(produceOrderBO.getCustomerConfirmed());
 		userConfirmed.setText(produceOrderBO.getUserConfirmed());
 		userEnded.setText(produceOrderBO.getUserEnded());
-		gmtCreated.setText(produceOrderBO.getGmtCreated());
+		gmtCreated.setText(DateUtils.transfromSdfDate(produceOrderBO.getGmtCreated()));
 	}
 
 	//初始化入库信息
